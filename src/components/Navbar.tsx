@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Camera } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,9 +42,10 @@ const Navbar: React.FC = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-2">
-            <Camera className={`h-8 w-8 ${isScrolled ? 'text-gray-800' : 'text-white'}`} />
-            <span className={`text-xl font-bold ${isScrolled ? 'text-gray-800' : 'text-white'}`}>
-              Yasindu Gunasekara
+            
+
+            <span className={`text-xl font-bold ${isScrolled ? 'text-gray-800' : 'text-white '}`}>
+              Yasindu Gunasekara Photography
             </span>
           </div>
 
@@ -63,7 +64,7 @@ const Navbar: React.FC = () => {
             ))}
             <button
               onClick={() => scrollToSection('#contact')}
-              className="bg-yellow-500 text-white px-6 py-2 rounded-full font-medium hover:bg-yellow-600 transition-colors duration-300"
+              className={`bg-amber-500 text-white px-6 py-2 rounded-full font-medium hover:bg-yellow-600 transition-colors duration-300`}
             >
               Book Now
             </button>
@@ -93,7 +94,7 @@ const Navbar: React.FC = () => {
               ))}
               <button
                 onClick={() => scrollToSection('#contact')}
-                className="w-full bg-yellow-500 text-white px-6 py-3 rounded-full font-medium hover:bg-yellow-600 transition-colors duration-300"
+                className="w-full bg-amber-500 text-white px-6 py-3 rounded-full font-medium hover:bg-yellow-600 transition-colors duration-300"
               >
                 Book Now
               </button>
