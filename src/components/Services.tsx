@@ -26,38 +26,39 @@ const Services: React.FC = () => {
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
+          {services.map((service) => (
             <div
               key={service.id}
-              className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
+              className="group relative bg-white rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col"
+              style={{ minHeight: '350px' }}
             >
-              {/* Image */}
-              <div className="relative overflow-hidden">
+              {/* Full-size Image with overlay */}
+              <div className="relative w-full h-full flex-1">
                 <img
                   src={service.image}
                   alt={service.title}
-                  className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                   loading="lazy"
+                  style={{ minHeight: '350px' }}
                 />
-                <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-60 transition-all duration-300"></div>
-                <div className="absolute top-4 left-4 text-3xl">{service.icon}</div>
-              </div>
-
-              {/* Content */}
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-3">
-                  {service.title}
-                </h3>
-                <p className="text-gray-600 mb-4 leading-relaxed">
-                  {service.description}
-                </p>
-                <button
-                  onClick={scrollToContact}
-                  className="flex items-center space-x-2 text-yellow-500 font-semibold hover:text-yellow-600 transition-colors duration-300 group"
-                >
-                  <span>Book Now</span>
-                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                </button>
+                <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-70 transition-all duration-300"></div>
+                {/* Overlayed Content */}
+                <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-6">
+                  <div className="mb-4 text-4xl">{service.icon}</div>
+                  <h3 className="text-2xl font-bold text-white mb-2 drop-shadow-lg">
+                    {service.title}
+                  </h3>
+                  <p className="text-white mb-4 leading-relaxed drop-shadow-lg">
+                    {service.description}
+                  </p>
+                  <button
+                    onClick={scrollToContact}
+                    className="flex items-center space-x-2 bg-yellow-500 text-white font-semibold px-6 py-2 rounded-full hover:bg-yellow-600 transition-colors duration-300 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto mt-2"
+                  >
+                    <span>Book Now</span>
+                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  </button>
+                </div>
               </div>
             </div>
           ))}

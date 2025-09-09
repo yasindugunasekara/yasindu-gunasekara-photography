@@ -61,7 +61,6 @@ const Footer: React.FC = () => {
                 { href: '#home', label: 'Home' },
                 { href: '#portfolio', label: 'Portfolio' },
                 { href: '#services', label: 'Services' },
-                { href: '#awards', label: 'Awards' },
                 { href: '#about', label: 'About' },
                 { href: '#contact', label: 'Contact' }
               ].map((link) => (
