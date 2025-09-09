@@ -36,30 +36,7 @@ const Hero: React.FC = () => {
           </p>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-3 gap-8 mb-12 max-w-md mx-auto">
-          <div className="text-center">
-            <div className="flex justify-center mb-2">
-              <Camera className="h-8 w-8 text-yellow-400" />
-            </div>
-            <div className="text-2xl font-bold">500+</div>
-            <div className="text-sm opacity-80">Projects</div>
-          </div>
-          <div className="text-center">
-            <div className="flex justify-center mb-2">
-              <Users className="h-8 w-8 text-yellow-400" />
-            </div>
-            <div className="text-2xl font-bold">300+</div>
-            <div className="text-sm opacity-80">Happy Clients</div>
-          </div>
-          <div className="text-center">
-            <div className="flex justify-center mb-2">
-              <Award className="h-8 w-8 text-yellow-400" />
-            </div>
-            <div className="text-2xl font-bold">15+</div>
-            <div className="text-sm opacity-80">Awards</div>
-          </div>
-        </div>
+        
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
