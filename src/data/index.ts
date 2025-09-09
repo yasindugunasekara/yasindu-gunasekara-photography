@@ -1,4 +1,4 @@
-import { Service, PortfolioImage, Award } from '../types';
+import { Service, PortfolioImage } from '../types';
 
 export const services: Service[] = [
   {
@@ -102,37 +102,3 @@ export const portfolioImages: PortfolioImage[] = [
   }
 ];
 
-export const awards: Award[] = [
-  {
-    id: '1',
-    title: 'International Photography Awards',
-    organization: 'IPA',
-    year: '2024',
-    image: 'https://images.pexels.com/photos/5912320/pexels-photo-5912320.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1',
-    description: 'Winner in Wedding Photography Category'
-  },
-  {
-    id: '2',
-    title: 'Sri Lanka Photography Awards',
-    organization: 'SLPA',
-    year: '2023',
-    image: 'https://images.pexels.com/photos/5912320/pexels-photo-5912320.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1',
-    description: 'Gold Medal in Portrait Photography'
-  },
-  {
-    id: '3',
-    title: 'Wedding Photography Excellence',
-    organization: 'WPE',
-    year: '2023',
-    image: 'https://images.pexels.com/photos/5912320/pexels-photo-5912320.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1',
-    description: 'Best Wedding Photographer of the Year'
-  },
-  {
-    id: '4',
-    title: 'Commercial Photography Guild',
-    organization: 'CPG',
-    year: '2022',
-    image: 'https://images.pexels.com/photos/5912320/pexels-photo-5912320.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1',
-    description: 'Outstanding Commercial Work Recognition'
-  }
-];
