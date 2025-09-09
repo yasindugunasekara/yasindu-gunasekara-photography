@@ -27,7 +27,7 @@ const Footer: React.FC = () => {
             </p>
             <div className="flex space-x-4">
               <a
-                href="https://facebook.com"
+                href="https://web.facebook.com/p/Yasindu-gunasekara-photography-61559091030891/?_rdc=1&_rdr#"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-yellow-500 transition-colors duration-300"
@@ -35,7 +35,7 @@ const Footer: React.FC = () => {
                 <Facebook className="h-5 w-5" />
               </a>
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/yasindu_gunasekara/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-yellow-500 transition-colors duration-300"
@@ -43,7 +43,7 @@ const Footer: React.FC = () => {
                 <Instagram className="h-5 w-5" />
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/yasindu-gunasekara-5a247a27b/?originalSubdomain=lk"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-yellow-500 transition-colors duration-300"
@@ -78,16 +78,19 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Contact Info */}
+          
           <div>
             <h3 className="text-lg font-semibold mb-6">Contact Info</h3>
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
                 <Phone className="h-5 w-5 text-yellow-500" />
-                <span className="text-gray-300">+94 77 123 4567</span>
+                <span className="text-gray-300">+9476 3771401</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="h-5 w-5 text-yellow-500" />
-                <span className="text-gray-300">hello@yasindugunasekara.com</span>
+                <a href="mailto:ramrasu2017@gmail.com" className="text-gray-300 hover:text-yellow-500 transition-colors duration-300">
+                  ramrasu2017@gmail.com
+                </a>
               </div>
               <div className="mt-6">
                 <h4 className="font-semibold mb-2">Business Hours</h4>
@@ -107,7 +110,7 @@ const Footer: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-gray-400 text-sm mb-4 md:mb-0">
-              © 2025 Yasindu Gunasekara Photography. All rights reserved.
+              © {new Date().getFullYear()} Yasindu Gunasekara Photography. All rights reserved.
             </div>
             <div className="flex space-x-6 text-sm text-gray-400">
               <a href="#" className="hover:text-yellow-500 transition-colors duration-300">

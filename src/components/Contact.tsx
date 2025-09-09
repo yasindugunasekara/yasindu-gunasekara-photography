@@ -105,8 +105,8 @@ const Contact: React.FC = () => {
               </div>
               <div>
                 <h4 className="text-lg font-semibold text-gray-900 mb-1">Phone</h4>
-                <p className="text-gray-600">+94 77 123 4567</p>
-                <p className="text-gray-600">+94 11 234 5678</p>
+                <p className="text-gray-600">+94 763771401</p>
+                
               </div>
             </div>
 
@@ -117,8 +117,8 @@ const Contact: React.FC = () => {
               </div>
               <div>
                 <h4 className="text-lg font-semibold text-gray-900 mb-1">Email</h4>
-                <p className="text-gray-600">hello@yasindugunasekara.com</p>
-                <p className="text-gray-600">info@yasindugunasekara.com</p>
+                <p className="text-gray-600">ramrasu2017@gmail.com</p>
+                
               </div>
             </div>
 
@@ -129,8 +129,8 @@ const Contact: React.FC = () => {
               </div>
               <div>
                 <h4 className="text-lg font-semibold text-gray-900 mb-1">Location</h4>
-                <p className="text-gray-600">Colombo, Sri Lanka</p>
-                <p className="text-gray-600">Available worldwide</p>
+                <p className="text-gray-600">Matara, Sri Lanka</p>
+                
               </div>
             </div>
 
