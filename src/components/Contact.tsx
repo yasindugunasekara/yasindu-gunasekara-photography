@@ -135,7 +135,7 @@ const Contact: React.FC = () => {
             </div>
 
             {/* Business Hours */}
-            <div className="bg-white p-6 rounded-2xl shadow-lg">
+            <div className="bg-white p-6 rounded-2xl ">
               <h4 className="text-lg font-semibold text-gray-900 mb-4">Business Hours</h4>
               <div className="space-y-2 text-gray-600">
                 <div className="flex justify-between">
