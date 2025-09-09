@@ -1,28 +1,19 @@
 import React from 'react';
-import { Camera, Users, Award, BookOpen } from 'lucide-react';
+import { Camera, BookOpen } from 'lucide-react';
 
 const About: React.FC = () => {
   const highlights = [
     {
-      icon: Camera,
-      title: 'Photographer',
-      description: 'Professional photographer with 10+ years of experience capturing life\'s beautiful moments'
-    },
-    {
-      icon: BookOpen,
-      title: 'Lecturer',
-      description: 'Teaching photography techniques and artistic vision at leading photography institutes'
-    },
-    {
-      icon: Users,
-      title: 'Trainer',
-      description: 'Conducting workshops and masterclasses for aspiring photographers worldwide'
-    },
-    {
-      icon: Award,
-      title: 'Judge',
-      description: 'Serving as a judge in prestigious international photography competitions'
-    }
+  icon: Camera,
+  title: 'Photographer',
+  description: 'Specialized in portrait, wildlife, landscape, and event photography'
+},
+{
+  icon: BookOpen,
+  title: 'IT Undergraduate',
+  description: 'Bachelor of Science Honours in Information Technology at the University of Moratuwa'
+}
+
   ];
 
   return (
@@ -40,38 +31,40 @@ const About: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
             </div>
             
-            {/* Floating Stats */}
-            <div className="absolute -bottom-8 -right-8 bg-white rounded-2xl p-6 shadow-xl">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-yellow-500">500+</div>
-                <div className="text-gray-600 font-medium">Projects Completed</div>
-              </div>
-            </div>
+            
+            
           </div>
 
           {/* Content Side */}
           <div>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              About Yasindu
+            <h2
+              className="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
+              style={{ fontFamily: 'Arial, sans-serif' }}
+            >
+              About Yasindu Gunasekara
             </h2>
-            <div className="space-y-6 text-gray-600 text-lg leading-relaxed mb-8">
+            <div className="space-y-6 text-gray-600 text-lg leading-relaxed mb-8" >
               <p>
-                Welcome to my world of photography. I'm Yasindu Gunasekara, a passionate photographer 
-                with over a decade of experience capturing life's most precious moments. My journey 
-                began with a simple fascination for light and shadow, which has evolved into a 
-                professional career spanning weddings, portraits, commercial projects, and artistic endeavors.
-              </p>
-              <p>
-                Based in Sri Lanka, I've had the privilege of working with clients from around the globe, 
-                each bringing their unique story to life through my lens. My approach combines technical 
-                expertise with artistic vision, ensuring that every photograph not only captures a moment 
-                but tells a compelling story.
-              </p>
-              <p>
-                Beyond photography, I'm deeply committed to education and mentorship. As a lecturer and 
-                trainer, I share my knowledge and passion with the next generation of photographers, 
-                helping them develop their skills and find their unique artistic voice.
-              </p>
+  Welcome to my world of photography. I’m Yasindu Gunasekara, a passionate photographer dedicated to capturing the beauty of life through my lens. What began as a fascination for light, shadow, and composition has grown into a journey of storytelling—where every click preserves emotions, memories, and moments that words alone cannot express.
+</p>
+
+<p>
+  My work spans across portrait, wildlife, landscape, and event photography. Whether it’s the intimacy of a portrait, the untamed beauty of wildlife, the grandeur of nature, or the energy of an event, I strive to bring out the essence of each subject. Every photograph is more than just an image—it is a visual story, carefully crafted to reflect depth, emotion, and meaning.
+</p>
+
+<p>
+  Based in Sri Lanka, I’ve had the privilege of photographing diverse cultures, places, and people. Each project allows me to blend technical precision with artistic creativity, ensuring that my photography is both timeless and visually striking. My vision is simple: to create images that not only document but also inspire, connect, and leave a lasting impression.
+</p>
+
+<p>
+  Alongside my passion for photography, I am also an undergraduate student at the University of Moratuwa, pursuing a Bachelor of Science Honours in Information Technology. This academic background has strengthened my skills in digital technologies, editing, and innovative approaches, allowing me to bring a modern and professional edge to my photography.
+</p>
+
+<p>
+  Yasindu Gunasekara Photography is built on the belief that every moment has a story worth telling. Through my lens, I aim to transform fleeting instants into memories that last forever, giving clients more than photographs—giving them experiences captured in time.
+</p>
+
+
             </div>
 
             {/* Highlights Grid */}
@@ -79,7 +72,7 @@ const About: React.FC = () => {
               {highlights.map((highlight, index) => (
                 <div key={index} className="flex items-start space-x-4 p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors duration-300">
                   <div className="flex-shrink-0">
-                    <highlight.icon className="h-8 w-8 text-yellow-500" />
+                    <highlight.icon className="h-8 w-8 text-amber-500" />
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-gray-900 mb-1">
