@@ -66,7 +66,7 @@ const Services: React.FC = () => {
 
         {/* CTA Section */}
         <div className="text-center mt-16">
-          <div className="bg-white rounded-2xl p-8 shadow-lg">
+          <div className="bg-white rounded-2xl p-8 ">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">
               Ready to Create Something Beautiful?
             </h3>
