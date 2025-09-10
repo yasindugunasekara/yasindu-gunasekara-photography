@@ -11,12 +11,12 @@ const Portfolio: React.FC = () => {
 
   const categories = [
     { id: 'all', label: 'All' },
-    { id: 'wedding', label: 'Wedding' },
     { id: 'portrait', label: 'Portrait' },
-    { id: 'commercial', label: 'Commercial' },
-    { id: 'food', label: 'Food' },
-    { id: 'real-estate', label: 'Real Estate' },
-    { id: 'aerial', label: 'Aerial' },
+    { id: 'wildlife', label: 'Wildlife' },
+    { id: 'landscape', label: 'Landscape' },
+    { id: 'event', label: 'Event' },
+    { id: 'architectural', label: 'Architectural' },
+    
   ];
 
   const filteredImages = selectedCategory === 'all' 
