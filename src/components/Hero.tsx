@@ -1,29 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 
-const Hero: React.FC = () => {
-  const images = [
-    "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=compress&cs=tinysrgb&w=1920&h=1280&dpr=1",
-    "https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=compress&cs=tinysrgb&w=1920&h=1280&dpr=1",
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=compress&cs=tinysrgb&w=1920&h=1280&dpr=1",
-    "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=compress&cs=tinysrgb&w=1920&h=1280&dpr=1",
-  ];
+const images = [
+  "/dist/assets/heroPhoto/photo5.jpg",
+  "/dist/assets/heroPhoto/photo10.jpg",
+  "/dist/assets/heroPhoto/photo1.jpg",
+  "/dist/assets/heroPhoto/photo7.jpg",
+  "/dist/assets/heroPhoto/photo8.jpg",
+  "/dist/assets/heroPhoto/photo9.jpg",
+  "/dist/assets/heroPhoto/photo2.jpg",
+  
+];
 
+
+
+const Hero: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length);
-    }, 5000); // change every 5 seconds
-
+    }, 5000); // change every 1 second
     return () => clearInterval(interval);
   }, [images.length]);
 
   const scrollToContact = () => {
     const element = document.querySelector('#contact');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    if (element) element.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -45,6 +48,7 @@ const Hero: React.FC = () => {
         <div className="mb-8">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
             Capturing Life's
+          
             <span className="block text-gray-400">Beautiful Moments</span>
           </h1>
         </div>
