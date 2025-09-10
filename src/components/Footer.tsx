@@ -114,9 +114,7 @@ const Footer: React.FC = () => {
           <a href="#" className="hover:text-yellow-500 transition-colors duration-300">
           Terms of Service
           </a>
-          <a href="#" className="hover:text-yellow-500 transition-colors duration-300">
-          Cookies
-          </a>
+          
         </div>
         </div>
       </div>
