@@ -46,7 +46,7 @@ const Hero: React.FC = () => {
       {/* Content */}
       <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
         <div className="mb-8">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
             Capturing Life's
           
             <span className="block text-gray-400">Beautiful Moments</span>
@@ -67,7 +67,7 @@ const Hero: React.FC = () => {
               const element = document.querySelector('#portfolio');
               if (element) element.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300"
+            className="border-2 border-white text-white px-6 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300"
           >
             View Portfolio
           </button>
