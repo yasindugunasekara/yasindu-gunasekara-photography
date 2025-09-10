@@ -100,7 +100,7 @@ const Contact: React.FC = () => {
 
             {/* Phone */}
             <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0 w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center">
+              <div className="flex-shrink-0 w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center">
                 <Phone className="h-6 w-6 text-white" />
               </div>
               <div>
@@ -112,7 +112,7 @@ const Contact: React.FC = () => {
 
             {/* Email */}
             <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0 w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center">
+              <div className="flex-shrink-0 w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center">
                 <Mail className="h-6 w-6 text-white" />
               </div>
               <div>
@@ -124,7 +124,7 @@ const Contact: React.FC = () => {
 
             {/* Location */}
             <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0 w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center">
+              <div className="flex-shrink-0 w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center">
                 <MapPin className="h-6 w-6 text-white" />
               </div>
               <div>
