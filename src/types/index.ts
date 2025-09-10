@@ -3,7 +3,6 @@ export interface Service {
   title: string;
   description: string;
   image: string;
-  icon: string;
 }
 
 export interface PortfolioImage {
