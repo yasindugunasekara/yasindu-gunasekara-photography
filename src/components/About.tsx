@@ -23,7 +23,7 @@ const About: React.FC = () => {
           <div className="relative">
             <div className="relative overflow-hidden rounded-2xl">
               <img
-                src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=800&h=1000&dpr=1"
+                src="/dist/assets/profilePic/profilephoto.jpg"
                 alt="Yasindu Gunasekara"
                 className="w-full h-[600px] object-cover"
               />
