@@ -17,14 +17,10 @@ const Footer: React.FC = () => {
         {/* Brand Section */}
         <div className="lg:col-span-2">
         <div className="flex items-center space-x-2 mb-6">
-          <Camera className="h-8 w-8 text-yellow-500" />
+          
           <span className="text-2xl font-bold">Yasindu Gunasekara</span>
         </div>
-        <p className="text-gray-300 mb-6 max-w-md leading-relaxed">
-          Professional photographer specializing in capturing life's beautiful moments. 
-          From weddings to commercial projects, I bring artistic vision and technical 
-          excellence to every shoot.
-        </p>
+       
         <div className="flex space-x-4">
           <a
           href="https://web.facebook.com/p/Yasindu-gunasekara-photography-61559091030891/?_rdc=1&_rdr#"

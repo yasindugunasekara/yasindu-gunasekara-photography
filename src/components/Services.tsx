@@ -66,7 +66,7 @@ const Services: React.FC = () => {
 
         {/* CTA Section */}
         <div className="text-center mt-16">
-          <div className="bg-white rounded-2xl p-8 ">
+          <div className="  p-8 ">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">
               Ready to Create Something Beautiful?
             </h3>
@@ -75,7 +75,7 @@ const Services: React.FC = () => {
             </p>
             <button
               onClick={scrollToContact}
-              className="bg-yellow-500 text-white px-8 py-3 rounded-full font-semibold hover:bg-yellow-600 transition-colors duration-300"
+              className="bg-amber-500 text-white px-8 py-3 rounded-full font-semibold hover:bg-amber-600 transition-colors duration-300"
             >
               Get In Touch
             </button>
