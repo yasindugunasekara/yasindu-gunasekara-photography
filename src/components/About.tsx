@@ -4,16 +4,15 @@ import { Camera, BookOpen } from 'lucide-react';
 const About: React.FC = () => {
   const highlights = [
     {
-  icon: Camera,
-  title: 'Photographer',
-  description: 'Specialized in portrait, wildlife, landscape, and event photography'
-},
-{
-  icon: BookOpen,
-  title: 'IT Undergraduate',
-  description: 'Bachelor of Science Honours in Information Technology at the University of Moratuwa'
-}
-
+      icon: Camera,
+      title: 'Photographer',
+      description: 'Specialized in portrait, wildlife, landscape, event, and architectural photography'
+    },
+    {
+      icon: BookOpen,
+      title: 'IT Undergraduate',
+      description: 'Bachelor of Science Honours in Information Technology at the University of Moratuwa'
+    }
   ];
 
   return (
