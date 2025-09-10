@@ -15,12 +15,12 @@ const Contact: React.FC = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const services = [
-    'Wedding Photography',
+    'Birthday Photography',
     'Portrait Photography',
-    'Commercial Photography',
-    'Food Photography',
-    'Real Estate Photography',
-    'Aerial Photography',
+    'Wildlife Photography',
+    'Landscape Photography',
+    'Event Photography',
+    'Architectural Photography',
     'Other'
   ];
 
