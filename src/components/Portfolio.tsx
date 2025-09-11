@@ -16,6 +16,7 @@ const Portfolio: React.FC = () => {
     { id: 'landscape', label: 'Landscape' },
     { id: 'event', label: 'Event' },
     { id: 'architectural', label: 'Architectural' },
+    { id: 'street', label: 'Street' },
     
   ];
 

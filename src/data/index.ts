@@ -50,37 +50,37 @@ export const services: Service[] = [
 export const portfolioImages: PortfolioImage[] = [
   {
     id: '1',
-    src: 'https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1',
-    alt: 'Portrait Photography',
+    src: 'dist/assets/highlightShots/tharushiShoot/DSC00192.jpg',
+    alt: 'Birthday Photography',
     category: 'portrait'
   },
   {
     id: '2',
-    src: 'https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1',
-    alt: 'Event Photography',
-    category: 'event'
+    src: 'dist/assets/highlightShots/vishmiShoot/1.jpg',
+    alt: 'Tamil vibe Photography',
+    category: 'portrait'
   },
   {
     id: '3',
-    src: 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1',
-    alt: 'Landscape Photography',
-    category: 'landscape'
+    src: 'dist/assets/highlightShots/gampahaAkkaShoot/DSC09983-2.jpg',
+    alt: 'Anniversary Photography',
+    category: 'portrait'
   },
   {
     id: '4',
-    src: 'https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1',
-    alt: 'Architectural Photography',
-    category: 'architectural'
+    src: 'dist/assets/highlightShots/landscape/DSC07870.jpg',
+    alt: 'Beach Photography',
+    category: 'landscape'
   },
   {
     id: '5',
-    src: 'https://images.pexels.com/photos/1433052/pexels-photo-1433052.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1',
+    src: 'dist/assets/highlightShots/wildlifeShoot/DSC07257.jpg',
     alt: 'Wildlife Photography',
     category: 'wildlife'
   },
   {
     id: '6',
-    src: 'https://images.pexels.com/photos/7658355/pexels-photo-7658355.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1',
+    src: 'dist/assets/highlightShots/streetShoot/street.jpg',
     alt: 'Street Photography',
     category: 'street'
   },
@@ -89,6 +89,18 @@ export const portfolioImages: PortfolioImage[] = [
     src: '/dist/assets/service-portfolio-photos/DSC07834.jpg',
     alt: 'Astro Photography',
     category: 'astro'
+  },
+  {
+    id: '8',
+    src: 'dist/assets/highlightShots/wildlifeShoot/DSC07976.jpg',
+    alt: 'Wildlife Photography',
+    category: 'wildlife'
+  },
+  {
+    id: '9',
+    src: 'dist/assets/highlightShots/uomShoot/DSC09751.jpg',
+    alt: 'University of Moratuwa Photography',
+    category: 'landscape'
   }
- 
+
 ];
