@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 
 const images = [
-  "/dist/assets/heroPhoto/photo5.jpg",
   "/dist/assets/heroPhoto/photo10.jpg",
+  "/dist/assets/heroPhoto/photo5.jpg",
   "/dist/assets/heroPhoto/photo1.jpg",
   "/dist/assets/heroPhoto/photo7.jpg",
   "/dist/assets/heroPhoto/photo8.jpg",
