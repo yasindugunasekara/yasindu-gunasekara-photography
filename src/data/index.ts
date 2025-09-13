@@ -139,18 +139,4 @@ export const portfolioImages: PortfolioImage[] = [
   ]
 
 
-// Gallery data
-export const galleries = [
-    {
-        id: "portrait",
-        title: "Portrait",
-        images: [
-            { id: 1, src: "../dist/assets/highlightShots/tharushiShoot/DSC00176.jpg", alt: "Portrait 1" },
-            { id: 2, src: "../dist/assets/highlightShots/tharushiShoot/DSC00286-2.jpg", alt: "Portrait 2" },
-            { id: 3, src: "../dist/assets/highlightShots/tharushiShoot/DSC00192.jpg", alt: "Portrait 3" },
-            { id: 4, src: "../dist/assets/highlightShots/tharushiShoot/DSC00301.jpg", alt: "Portrait 4" },
-            { id: 5, src: "../dist/assets/highlightShots/tharushiShoot/DSC00178.jpg", alt: "Portrait 5" },
-            { id: 6, src: "../dist/assets/highlightShots/tharushiShoot/DSC00190.jpg", alt: "Portrait 6" },
-        ],
-    }
-];
+
