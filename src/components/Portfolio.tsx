@@ -15,7 +15,10 @@ const categories: Category[] = [
   { id: "wildlife", label: "Wildlife" },
   { id: "street", label: "Street" },
   { id: "astro", label: "Astro" },
-];
+  { id: "event", label: "Event" },
+  { id: "architectural", label: "Architectural" },
+  { id: "birthday", label: "Birthday" }
+    ];
 
 const Portfolio: React.FC = () => {
   const navigate = useNavigate();

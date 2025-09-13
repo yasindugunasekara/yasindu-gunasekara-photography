@@ -52,7 +52,7 @@ export const portfolioImages: PortfolioImage[] = [
   {
     id: '1',
     alt: 'Birthday Photography',
-    category: 'portrait',
+    category: 'birthday',
     images: [
       { id: 1, src: "../dist/assets/highlightShots/tharushiShoot/DSC00192.jpg" },
       { id: 2, src: "../dist/assets/highlightShots/tharushiShoot/DSC00286-2.jpg" },
@@ -109,7 +109,7 @@ export const portfolioImages: PortfolioImage[] = [
     {
     id:6,
     alt:'University Of Moratuwa Photography',
-    category:'landscape',
+    category:'architectural',
     images: [
       { id: 1, src: "../dist/assets/highlightShots/uomShoot/DSC09751.jpg" }]
     },
@@ -133,7 +133,15 @@ export const portfolioImages: PortfolioImage[] = [
     category:'portrait',
     images: [
       { id: 1, src: "../dist/assets/highlightShots/modelShoot/DSC09805.jpg" }]
+    },
+    {
+    id:10,
+    alt:'Event Photography',
+    category:'event',
+    images: [
+      { id: 1, src: "../dist/assets/heroPhoto/photo9.jpg" }]
     }
+
 
     
   ]
