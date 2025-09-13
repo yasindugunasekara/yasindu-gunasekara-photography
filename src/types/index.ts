@@ -5,12 +5,14 @@ export interface Service {
   image: string;
 }
 
-export interface PortfolioImage {
+interface PortfolioImage {
   id: string;
   src: string;
   alt: string;
   category: string;
+  images?: { id: number; src: string }[];
 }
+
 
 export interface Award {
   id: string;

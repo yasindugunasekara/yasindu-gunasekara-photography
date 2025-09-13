@@ -1,6 +1,5 @@
 import { Service, PortfolioImage } from '../types';
 
-
 export const services: Service[] = [
   
   {
@@ -52,60 +51,92 @@ export const services: Service[] = [
 export const portfolioImages: PortfolioImage[] = [
   {
     id: '1',
-    src: 'dist/assets/highlightShots/tharushiShoot/DSC00192.jpg',
     alt: 'Birthday Photography',
-    category: 'portrait'
+    category: 'portrait',
+    images: [
+      { id: 1, src: "../dist/assets/highlightShots/tharushiShoot/DSC00192.jpg" },
+      { id: 2, src: "../dist/assets/highlightShots/tharushiShoot/DSC00286-2.jpg" },
+      { id: 3, src: "../dist/assets/highlightShots/tharushiShoot/DSC00176.jpg" },
+      { id: 4, src: "../dist/assets/highlightShots/tharushiShoot/DSC00301.jpg" },
+      { id: 5, src: "../dist/assets/highlightShots/tharushiShoot/DSC00178.jpg" },
+      { id: 6, src: "../dist/assets/highlightShots/tharushiShoot/DSC00190.jpg" }
+    ]
   },
   {
-    id: '2',
-    src: 'dist/assets/highlightShots/vishmiShoot/1.jpg',
-    alt: 'Tamil vibe Photography',
-    category: 'portrait'
+    id:2,
+    alt:'Tamil vibe Photography',
+    category:'portrait',
+    images: [
+      { id: 1, src: "../dist/assets/highlightShots/vishmiShoot/1.jpg" },
+      { id: 2, src: "../dist/assets/highlightShots/vishmiShoot/4.jpg" },
+      { id: 3, src: "../dist/assets/highlightShots/vishmiShoot/5.jpg" },
+      { id: 4, src: "../dist/assets/highlightShots/vishmiShoot/6.jpg" },
+      { id: 5, src: "../dist/assets/highlightShots/vishmiShoot/9.jpg" },
+      { id: 6, src: "../dist/assets/highlightShots/vishmiShoot/13.jpg" }
+    ]
   },
   {
-    id: '3',
-    src: 'dist/assets/highlightShots/gampahaAkkaShoot/DSC09983-2.jpg',
-    alt: 'Anniversary Photography',
-    category: 'portrait'
+    id:3,
+    alt:'Anniversary Photography',
+    category:'portrait',
+    images: [
+      { id: 1, src: "../dist/assets/highlightShots/gampahaAkkaShoot/3 .jpg" }
+      ,
+        { id: 2, src: "../dist/assets/highlightShots/gampahaAkkaShoot/4..jpg" },
+        { id: 3, src: "../dist/assets/highlightShots/gampahaAkkaShoot/5.jpg" },
+        { id: 4, src: "../dist/assets/highlightShots/gampahaAkkaShoot/9.jpg" },
+        { id: 5, src: "../dist/assets/highlightShots/gampahaAkkaShoot/13.jpg" },
+        { id: 6, src: "../dist/assets/highlightShots/gampahaAkkaShoot/DSC09973.jpg" },
+        { id: 7, src: "../dist/assets/highlightShots/gampahaAkkaShoot/DSC09983-2.jpg" }
+    ]
   },
   {
-    id: '4',
-    src: 'dist/assets/highlightShots/landscape/DSC07870.jpg',
-    alt: 'Beach Photography',
-    category: 'landscape'
-  },
-  {
-    id: '5',
-    src: 'dist/assets/highlightShots/wildlifeShoot/DSC07257.jpg',
-    alt: 'Wildlife Photography',
-    category: 'wildlife'
-  },
-  {
-    id: '6',
-    src: 'dist/assets/highlightShots/streetShoot/street.jpg',
-    alt: 'Street Photography',
-    category: 'street'
-  },
-  {
-    id: '7',
-    src: '/dist/assets/service-portfolio-photos/DSC07834.jpg',
-    alt: 'Astro Photography',
-    category: 'astro'
-  },
-  {
-    id: '8',
-    src: 'dist/assets/highlightShots/wildlifeShoot/DSC07976.jpg',
-    alt: 'Wildlife Photography',
-    category: 'wildlife'
-  },
-  {
-    id: '9',
-    src: 'dist/assets/highlightShots/uomShoot/DSC09751.jpg',
-    alt: 'University of Moratuwa Photography',
-    category: 'landscape'
-  }
+    id:4,
+    alt:'Wildlife Photography',
+    category:'wildlife',
+    images: [
+      { id: 1, src: "../dist/assets/highlightShots/wildlifeShoot/DSC07257.jpg" },
+      { id: 2, src: "../dist/assets/service-portfolio-photos/DSC07976.jpg" },
+    ]
+    },
+    {
+    id:5,
+    alt:'Beach Photography',
+    category:'landscape',
+    images: [
+      { id: 1, src: "../dist/assets/highlightShots/landscape/DSC07870.jpg" }]
+    },
+    {
+    id:6,
+    alt:'University Of Moratuwa Photography',
+    category:'landscape',
+    images: [
+      { id: 1, src: "../dist/assets/highlightShots/uomShoot/DSC09751.jpg" }]
+    },
+    {
+    id:7,
+    alt:'Street Photography',
+    category:'street',
+    images: [
+      { id: 1, src: "../dist/assets/service-portfolio-photos/DSC07117.jpg" }]
+    },
+    {
+    id:8,
+    alt:'Astro Photography',
+    category:'astro',
+    images: [
+      { id: 1, src: "../dist/assets/service-portfolio-photos/DSC07834.jpg" }]
+    },
+    {
+    id:9,
+    alt:'Model Photography',
+    category:'portrait',
+    images: [
+      { id: 1, src: "../dist/assets/highlightShots/modelShoot/DSC09805.jpg" }]
+    }
 
-];
+    
+  ]
 
 
 // Gallery data
