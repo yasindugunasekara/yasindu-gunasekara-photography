@@ -9,6 +9,7 @@ const images = [
   "/dist/assets/heroPhoto/photo8.jpg",
   "/dist/assets/heroPhoto/photo9.jpg",
   "/dist/assets/heroPhoto/photo2.jpg",
+  "/dist/assets/heroPhoto/DSC09883.jpg",
   
 ];
 

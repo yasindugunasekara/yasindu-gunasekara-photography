@@ -54,12 +54,13 @@ export const portfolioImages: PortfolioImage[] = [
     alt: 'Birthday Photography',
     category: 'birthday',
     images: [
-      { id: 1, src: "../dist/assets/highlightShots/tharushiShoot/DSC00192.jpg" },
-      { id: 2, src: "../dist/assets/highlightShots/tharushiShoot/DSC00286-2.jpg" },
-      { id: 3, src: "../dist/assets/highlightShots/tharushiShoot/DSC00176.jpg" },
+      { id: 1, src: "../dist/assets/highlightShots/tharushiShoot/DSC00192 - Copy.jpg" },
+      { id: 2, src: "../dist/assets/highlightShots/tharushiShoot/DSC00176.jpg" },
+      { id: 3, src: "../dist/assets/highlightShots/tharushiShoot/DSC00286-2.jpg" },
       { id: 4, src: "../dist/assets/highlightShots/tharushiShoot/DSC00301.jpg" },
       { id: 5, src: "../dist/assets/highlightShots/tharushiShoot/DSC00178.jpg" },
-      { id: 6, src: "../dist/assets/highlightShots/tharushiShoot/DSC00190.jpg" }
+      { id: 6, src: "../dist/assets/highlightShots/tharushiShoot/DSC00190.jpg" },
+      { id: 7, src: "../dist/assets/highlightShots/tharushiShoot/DSC00186 - Copy.jpg" }
     ]
   },
   {
@@ -87,7 +88,7 @@ export const portfolioImages: PortfolioImage[] = [
         { id: 4, src: "../dist/assets/highlightShots/gampahaAkkaShoot/9.jpg" },
         { id: 5, src: "../dist/assets/highlightShots/gampahaAkkaShoot/13.jpg" },
         { id: 6, src: "../dist/assets/highlightShots/gampahaAkkaShoot/DSC09973.jpg" },
-        { id: 7, src: "../dist/assets/highlightShots/gampahaAkkaShoot/DSC09983-2.jpg" }
+        { id: 7, src: "../dist/assets/highlightShots/gampahaAkkaShoot/DSC09984-2.jpg" }
     ]
   },
   {
