@@ -8,6 +8,7 @@ import About from './components/About';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import GalleryPage from './pages/GalleryPage';
+import ChatBot from './components/ChatBot';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
                 <Portfolio />
                 <About />
                 <Contact />
+                <ChatBot />
                 <Footer />
               </>
             }
