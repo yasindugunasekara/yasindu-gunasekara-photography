@@ -29,7 +29,7 @@ const Services: React.FC = () => {
           {services.map((service) => (
             <div
               key={service.id}
-              className="group relative bg-white rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col"
+              className="group relative bg-white rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col "
               style={{ minHeight: '350px' }}
             >
               {/* Full-size Image with overlay */}

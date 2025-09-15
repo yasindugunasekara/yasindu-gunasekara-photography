@@ -68,9 +68,10 @@ export const portfolioImages: PortfolioImage[] = [
     alt:'Tamil vibe Photography',
     category:'portrait',
     images: [
+      { id: 3, src: "../dist/assets/highlightShots/vishmiShoot/5.jpg" },
       { id: 1, src: "../dist/assets/highlightShots/vishmiShoot/1.jpg" },
       { id: 2, src: "../dist/assets/highlightShots/vishmiShoot/4.jpg" },
-      { id: 3, src: "../dist/assets/highlightShots/vishmiShoot/5.jpg" },
+      
       { id: 4, src: "../dist/assets/highlightShots/vishmiShoot/6.jpg" },
       { id: 5, src: "../dist/assets/highlightShots/vishmiShoot/9.jpg" },
       { id: 6, src: "../dist/assets/highlightShots/vishmiShoot/13.jpg" }
@@ -100,19 +101,15 @@ export const portfolioImages: PortfolioImage[] = [
       { id: 2, src: "../dist/assets/service-portfolio-photos/DSC07976.jpg" },
     ]
     },
-    {
-    id:5,
-    alt:'Beach Photography',
-    category:'landscape',
-    images: [
-      { id: 1, src: "../dist/assets/highlightShots/landscape/DSC07870.jpg" }]
-    },
+    
     {
     id:6,
     alt:'University Of Moratuwa Photography',
     category:'architectural',
     images: [
-      { id: 1, src: "../dist/assets/highlightShots/uomShoot/DSC09751.jpg" }]
+      { id: 1, src: "../dist/assets/highlightShots/uomShoot/DSC09751.jpg" },
+      { id: 2, src: "../dist/assets/service-portfolio-photos/DSC09763.jpg" }
+    ]
     },
     {
     id:7,
@@ -140,8 +137,24 @@ export const portfolioImages: PortfolioImage[] = [
     alt:'Event Photography',
     category:'event',
     images: [
-      { id: 1, src: "../dist/assets/heroPhoto/photo9.jpg" }]
+      { id: 1, src: "../dist/assets/heroPhoto/photo9.jpg" },
+      {id: 2, src: "../dist/assets/highlightShots/eventShoot/1.jpg"},
+      {id: 3, src: "../dist/assets/highlightShots/eventShoot/2.jpg"},
+      {id: 4, src: "../dist/assets/highlightShots/eventShoot/3.jpg"},
+      {id: 5, src: "../dist/assets/highlightShots/eventShoot/4.jpg"},
+      {id: 6, src: "../dist/assets/highlightShots/eventShoot/5.jpg"},
+      {id: 7, src: "../dist/assets/highlightShots/eventShoot/6.jpg"},
+      {id: 8, src: "../dist/assets/highlightShots/eventShoot/7.jpg"},
+    ]
+    },
+    {
+    id:8,
+    alt: 'Portrait Photography',
+    category:'portrait',
+    images: [
+      { id: 1, src:"../dist/assets/highlightShots/baby.jpg" }]
     }
+   
 
 
     
