@@ -147,16 +147,14 @@ export const portfolioImages: PortfolioImage[] = [
     ]
     },
     {
-    id:8,
+    id:11,
     alt: 'Portrait Photography',
     category:'portrait',
     images: [
-      { id: 1, src:"/assets/highlightShots/baby.jpg" }]
+      { id: 1, src:"/assets/highlightShots/baby.jpg" }
+    ]
     }
    
-
-
-    
   ]
 
 
