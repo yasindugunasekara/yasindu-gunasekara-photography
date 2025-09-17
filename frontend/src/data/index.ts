@@ -129,7 +129,7 @@ export const portfolioImages: PortfolioImage[] = [
     alt:'Model Photography',
     category:'portrait',
     images: [
-      { id: 1, src: "/assets/highlightShots/modelShoot/DSC09805.jpg" }]
+      { id: 1, src: "/assets/highlightShots/modelShoot/LSC09026.jpg" }]
     },
     {
     id:10,

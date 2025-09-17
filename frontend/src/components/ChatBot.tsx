@@ -65,7 +65,7 @@ const ChatBot: React.FC = () => {
       className="fixed bottom-6 left-6 bg-gray-900 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:bg-gray-600 transition-transform transform translate-y-4 opacity-0 animate-slideIn"
     >
       <img
-      src="/dist/assets/profilePic/image.jpg"
+      src="/assets/profilePic/bot.jpg"
       className="w-12 h-12 rounded-full"
       />
     </button>
@@ -80,7 +80,7 @@ const ChatBot: React.FC = () => {
           {/* Profile Picture */}
           <div className="w-10 h-10 rounded-full bg-white border-2 border-white overflow-hidden flex-shrink-0">
             <img
-              src="/dist/assets/profilePic/image.jpg"
+              src="/assets/profilePic/bot.jpg"
               alt="Profile"
               className="w-full h-full object-cover"
             />
