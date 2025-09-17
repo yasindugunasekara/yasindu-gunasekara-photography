@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 
 const images = [
-  "/dist/assets/heroPhoto/photo10.jpg",
-  "/dist/assets/heroPhoto/photo5.jpg",
-  "/dist/assets/heroPhoto/photo1.jpg",
-  "/dist/assets/heroPhoto/photo7.jpg",
-  "/dist/assets/heroPhoto/photo8.jpg",
-  "/dist/assets/heroPhoto/photo9.jpg",
-  "/dist/assets/heroPhoto/photo2.jpg",
-  "/dist/assets/heroPhoto/DSC09883.jpg",
-  
+  "/assets/heroPhoto/photo10.jpg",
+  "/assets/heroPhoto/photo5.jpg",
+  "/assets/heroPhoto/photo1.jpg",
+  "/assets/heroPhoto/photo7.jpg",
+  "/assets/heroPhoto/photo8.jpg",
+  "/assets/heroPhoto/photo9.jpg",
+  "/assets/heroPhoto/photo2.jpg",
+  "/assets/heroPhoto/DSC09883.jpg",
+
 ];
 
 
