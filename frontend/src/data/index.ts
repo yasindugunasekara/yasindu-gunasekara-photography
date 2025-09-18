@@ -153,6 +153,23 @@ export const portfolioImages: PortfolioImage[] = [
     images: [
       { id: 1, src:"/assets/highlightShots/baby.jpg" }
     ]
+    },
+    {
+    id:12,
+    alt: 'Event Photography',
+    category:'Event',
+    images: [
+      { id: 1, src:"/assets/highlightShots/bloodDonationShoot/2.JPG" },
+      { id: 2, src:"/assets/highlightShots/bloodDonationShoot/1.JPG" },
+      { id: 3, src:"/assets/highlightShots/bloodDonationShoot/3.JPG" },
+      { id: 4, src:"/assets/highlightShots/bloodDonationShoot/11.JPG" },
+      { id: 5, src:"/assets/highlightShots/bloodDonationShoot/5.JPG" },
+      { id: 6, src:"/assets/highlightShots/bloodDonationShoot/6.JPG" },
+      { id: 7, src:"/assets/highlightShots/bloodDonationShoot/7.JPG" },
+      { id: 8, src:"/assets/highlightShots/bloodDonationShoot/8.JPG" },
+      { id: 9, src:"/assets/highlightShots/bloodDonationShoot/9.JPG" },
+      { id: 10, src:"/assets/highlightShots/bloodDonationShoot/10.JPG" }
+    ]
     }
    
   ]
