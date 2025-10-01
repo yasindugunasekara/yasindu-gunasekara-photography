@@ -170,8 +170,25 @@ export const portfolioImages: PortfolioImage[] = [
       { id: 9, src:"/assets/highlightShots/bloodDonationShoot/9.JPG" },
       { id: 10, src:"/assets/highlightShots/bloodDonationShoot/10.JPG" }
     ]
+    },
+  {
+      id:13,
+      alt: 'Portrait Photography',
+      category:'portrait',
+      images: [
+        { id: 1, src:"/assets/highlightShots/siyumiShoot/reduced_2.JPG" },
+        { id: 2, src:"/assets/highlightShots/siyumiShoot/reduced_1.JPG" },
+        { id: 3, src:"/assets/highlightShots/siyumiShoot/reduced_3.JPG" },
+        { id: 4, src:"/assets/highlightShots/siyumiShoot/reduced_4.JPG" },
+        { id: 5, src:"/assets/highlightShots/siyumiShoot/reduced_5.JPG" },
+        { id: 6, src:"/assets/highlightShots/siyumiShoot/reduced_6.JPG" },
+        { id: 7, src:"/assets/highlightShots/siyumiShoot/reduced_7.JPG" },
+        { id: 8, src:"/assets/highlightShots/siyumiShoot/reduced_8.JPG" },
+        { id: 9, src:"/assets/highlightShots/siyumiShoot/reduced_9.JPG" },
+        { id: 10, src:"/assets/highlightShots/siyumiShoot/reduced_10.JPG" }
+      ]
     }
-   
+  
   ]
 
 
