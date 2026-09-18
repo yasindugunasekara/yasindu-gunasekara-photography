@@ -1,6 +1,9 @@
 import React from "react";
 import { Camera, BookOpen } from "lucide-react";
 
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
+
 const About: React.FC = () => {
   const highlights = [
     {
@@ -24,10 +27,12 @@ const About: React.FC = () => {
           {/* Image Side */}
           <div className="relative">
             <div className="relative overflow-hidden rounded-2xl">
-              <img
+              <LazyLoadImage
                 src="/assets/profilePic/DSC09834.jpg"
                 alt="Yasindu Gunasekara"
+                effect="blur"
                 className="w-full h-[600px] object-cover"
+                wrapperClassName="w-full"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
             </div>

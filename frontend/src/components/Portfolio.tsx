@@ -20,6 +20,9 @@ const categories: Category[] = [
   { id: "birthday", label: "Birthday" }
     ];
 
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
+
 const Portfolio: React.FC = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -69,10 +72,12 @@ const Portfolio: React.FC = () => {
               className="relative group cursor-pointer overflow-hidden rounded-2xl aspect-square"
               onClick={() => openGallery(image.id)}
             >
-              <img
+              <LazyLoadImage
                 src={image && image.images.length > 0 ? image.images[0].src : ""}
                 alt={`Image ${image?.id}`}
+                effect="blur"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                wrapperClassName="w-full h-full"
               />
               <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-all duration-300 flex items-center justify-center">
                 <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center text-white">

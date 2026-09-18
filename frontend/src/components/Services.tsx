@@ -2,6 +2,9 @@ import React from 'react';
 import { services } from '../data';
 import { ArrowRight } from 'lucide-react';
 
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
+
 const Services: React.FC = () => {
   const scrollToContact = () => {
     const element = document.querySelector('#contact');
@@ -34,11 +37,12 @@ const Services: React.FC = () => {
             >
               {/* Full-size Image with overlay */}
               <div className="relative w-full h-full flex-1">
-                <img
+                <LazyLoadImage
                   src={service.image}
                   alt={service.title}
+                  effect="blur"
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                  loading="lazy"
+                  wrapperClassName="w-full h-full"
                   style={{ minHeight: '350px' }}
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-70 transition-all duration-300"></div>

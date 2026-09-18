@@ -2,6 +2,9 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { portfolioImages } from "../data/"; // Update import
 
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
+
 const GalleryPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const gallery = portfolioImages.find((g) => String(g.id) === String(id));
@@ -33,10 +36,12 @@ const GalleryPage: React.FC = () => {
                 className="aspect-[3/4] rounded-xl overflow-hidden shadow-lg transition-transform cursor-pointer hover:scale-105"
                 title="Click to view full image"
                 >
-                <img
+                <LazyLoadImage
                   src={img.src}
                   alt={gallery.alt}
+                  effect="blur"
                   className="w-full h-full object-cover transition-transform duration-200 hover:scale-105"
+                  wrapperClassName="w-full h-full"
                 />
                 </div>
         ))}
