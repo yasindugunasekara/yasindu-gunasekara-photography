@@ -178,56 +178,98 @@ const AdminDashboard: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 h-full overflow-y-auto bg-gray-50" style={{ WebkitOverflowScrolling: 'touch' }}>
-        <div className="p-8 max-w-5xl mx-auto pb-12">
+      <main className="flex-1 h-full overflow-y-auto bg-gray-50 flex flex-col" style={{ WebkitOverflowScrolling: 'touch' }}>
+        
+        {/* Mobile Navigation */}
+        <div className="md:hidden bg-white border-b border-gray-200 sticky top-0 z-10 flex-shrink-0">
+          <div className="flex overflow-x-auto px-2 py-2 space-x-2 no-scrollbar">
+            <button onClick={() => setActiveTab('albums')} className={`flex-shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'albums' ? 'bg-amber-50 text-amber-600' : 'text-gray-600'}`}>Manage Albums</button>
+            <button onClick={() => { setActiveTab('addAlbum'); setIsEditing(null); setAlbumTitle(''); setAlbumCategory(''); setExistingImages([]); setUploadedFiles([]); setPreviewUrls([]); }} className={`flex-shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'addAlbum' ? 'bg-amber-50 text-amber-600' : 'text-gray-600'}`}>{isEditing ? 'Edit Album' : 'Add Album'}</button>
+            <button onClick={() => setActiveTab('categories')} className={`flex-shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'categories' ? 'bg-amber-50 text-amber-600' : 'text-gray-600'}`}>Categories</button>
+            <button onClick={handleLogout} className="flex-shrink-0 px-4 py-2 rounded-lg text-sm font-medium text-red-600">Logout</button>
+          </div>
+        </div>
+
+        <div className="p-4 sm:p-8 max-w-5xl mx-auto pb-12 w-full">
           {activeTab === 'albums' && (
             <div>
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-2xl font-bold text-gray-900">Albums List</h3>
               </div>
-              <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Photos</th>
-                      <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {portfolioImages.map((album) => (
-                      <tr key={album.id}>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <div className="h-10 w-10 flex-shrink-0">
-                              <img className="h-10 w-10 rounded object-cover" src={album.images?.[0]?.src || ''} alt="" />
-                            </div>
-                            <div className="ml-4">
-                              <div className="text-sm font-medium text-gray-900">{album.alt}</div>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 capitalize">
-                            {album.category}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {album.images.length}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <button onClick={() => startEditAlbum(album)} className="text-indigo-600 hover:text-indigo-900 mr-4">
-                            <Edit2 className="h-5 w-5 inline" />
-                          </button>
-                          <button onClick={() => deleteAlbum(album.id)} className="text-red-600 hover:text-red-900">
-                            <Trash2 className="h-5 w-5 inline" />
-                          </button>
-                        </td>
+              <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+                {/* Desktop Table View */}
+                <div className="hidden md:block overflow-x-auto">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Photos</th>
+                        <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {portfolioImages.map((album) => (
+                        <tr key={album.id}>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="flex items-center">
+                              <div className="h-10 w-10 flex-shrink-0">
+                                <img className="h-10 w-10 rounded object-cover" src={album.images?.[0]?.src || ''} alt="" />
+                              </div>
+                              <div className="ml-4">
+                                <div className="text-sm font-medium text-gray-900">{album.alt}</div>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 capitalize">
+                              {album.category}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {album.images.length}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <button onClick={() => startEditAlbum(album)} className="text-indigo-600 hover:text-indigo-900 mr-4">
+                              <Edit2 className="h-5 w-5 inline" />
+                            </button>
+                            <button onClick={() => deleteAlbum(album.id)} className="text-red-600 hover:text-red-900">
+                              <Trash2 className="h-5 w-5 inline" />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Mobile Card View */}
+                <div className="md:hidden divide-y divide-gray-100">
+                  {portfolioImages.map((album) => (
+                    <div key={`mobile-${album.id}`} className="p-4 flex items-center justify-between">
+                      <div className="flex items-center space-x-3 overflow-hidden">
+                        <img className="h-12 w-12 rounded-lg object-cover flex-shrink-0" src={album.images?.[0]?.src || ''} alt="" />
+                        <div className="truncate">
+                          <div className="text-sm font-bold text-gray-900 truncate">{album.alt}</div>
+                          <div className="flex items-center space-x-2 mt-1">
+                            <span className="px-2 py-0.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-blue-100 text-blue-800 capitalize">
+                              {album.category}
+                            </span>
+                            <span className="text-xs text-gray-500">{album.images.length} photos</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex space-x-2 ml-2 flex-shrink-0">
+                        <button onClick={() => startEditAlbum(album)} className="p-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 transition-colors">
+                          <Edit2 className="h-4 w-4" />
+                        </button>
+                        <button onClick={() => deleteAlbum(album.id)} className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors">
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           )}
@@ -289,7 +331,7 @@ const AdminDashboard: React.FC = () => {
                 {(previewUrls.length > 0 || existingImages.length > 0) && (
                   <div>
                     <h4 className="text-sm font-medium text-gray-700 mb-2">Album Images</h4>
-                    <div className="grid grid-cols-4 sm:grid-cols-6 gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
                       {/* Existing Images */}
                       {existingImages.map((url, index) => (
                         <div key={`existing-${index}`} className="relative group rounded-md overflow-hidden aspect-square border border-amber-300">
