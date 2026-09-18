@@ -1,14 +1,21 @@
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useData, PortfolioImage, PortfolioImageItem, Category } from '../../context/DataContext';
-import { LogOut, Plus, Trash2, Edit2, Image as ImageIcon, Tag, Save, X, UploadCloud } from 'lucide-react';
+import { LogOut, Plus, Trash2, Edit2, Image as ImageIcon, Tag, Save, X, UploadCloud, Settings, Menu, ArrowLeft } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
 
 const AdminDashboard: React.FC = () => {
   const { categories, portfolioImages, token, logout, addCategory, addAlbum, editAlbum, deleteAlbum } = useData();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<'albums' | 'addAlbum' | 'categories'>('albums');
+  const [activeTab, setActiveTab] = useState<'albums' | 'addAlbum' | 'categories' | 'settings'>(() => {
+    return (sessionStorage.getItem('adminActiveTab') as any) || 'albums';
+  });
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  React.useEffect(() => {
+    sessionStorage.setItem('adminActiveTab', activeTab);
+  }, [activeTab]);
 
   // Add/Edit Album State
   const [isEditing, setIsEditing] = useState<string | number | null>(null);
@@ -27,6 +34,13 @@ const AdminDashboard: React.FC = () => {
   // Add Category State
   const [newCategoryLabel, setNewCategoryLabel] = useState('');
   const [newCategoryId, setNewCategoryId] = useState('');
+
+  // Password Change State
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordMsg, setPasswordMsg] = useState({ type: '', text: '' });
+  const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -128,6 +142,37 @@ const AdminDashboard: React.FC = () => {
     alert('Category added successfully!');
   };
 
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPasswordMsg({ type: '', text: '' });
+
+    if (newPassword !== confirmPassword) {
+      setPasswordMsg({ type: 'error', text: 'New passwords do not match.' });
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      setPasswordMsg({ type: 'error', text: 'New password must be at least 6 characters.' });
+      return;
+    }
+
+    setIsUpdatingPassword(true);
+    try {
+      const res = await axios.put(`${import.meta.env.VITE_API_URL}/admin/password`, 
+        { currentPassword, newPassword },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setPasswordMsg({ type: 'success', text: res.data.message });
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+    } catch (err: any) {
+      setPasswordMsg({ type: 'error', text: err.response?.data?.error || 'Failed to update password' });
+    } finally {
+      setIsUpdatingPassword(false);
+    }
+  };
+
   return (
     <div className="flex h-screen w-full bg-gray-50 overflow-hidden">
       {/* Sidebar */}
@@ -160,6 +205,13 @@ const AdminDashboard: React.FC = () => {
               <Tag className="h-5 w-5" />
               <span className="font-medium">Categories</span>
             </button>
+            <button
+              onClick={() => { setActiveTab('settings'); setPasswordMsg({ type: '', text: '' }); }}
+              className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors ${activeTab === 'settings' ? 'bg-amber-50 text-amber-600' : 'text-gray-600 hover:bg-gray-50'}`}
+            >
+              <Settings className="h-5 w-5" />
+              <span className="font-medium">Settings</span>
+            </button>
           </nav>
           
           <div className="p-4 border-t border-gray-100">
@@ -178,16 +230,43 @@ const AdminDashboard: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 h-full overflow-y-auto bg-gray-50 flex flex-col" style={{ WebkitOverflowScrolling: 'touch' }}>
+      <main className="flex-1 h-full overflow-y-auto bg-gray-50 flex flex-col hide-scrollbar" style={{ WebkitOverflowScrolling: 'touch' }}>
         
         {/* Mobile Navigation */}
-        <div className="md:hidden bg-white border-b border-gray-200 sticky top-0 z-10 flex-shrink-0">
-          <div className="flex overflow-x-auto px-2 py-2 space-x-2 no-scrollbar">
-            <button onClick={() => setActiveTab('albums')} className={`flex-shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'albums' ? 'bg-amber-50 text-amber-600' : 'text-gray-600'}`}>Manage Albums</button>
-            <button onClick={() => { setActiveTab('addAlbum'); setIsEditing(null); setAlbumTitle(''); setAlbumCategory(''); setExistingImages([]); setUploadedFiles([]); setPreviewUrls([]); }} className={`flex-shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'addAlbum' ? 'bg-amber-50 text-amber-600' : 'text-gray-600'}`}>{isEditing ? 'Edit Album' : 'Add Album'}</button>
-            <button onClick={() => setActiveTab('categories')} className={`flex-shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'categories' ? 'bg-amber-50 text-amber-600' : 'text-gray-600'}`}>Categories</button>
-            <button onClick={handleLogout} className="flex-shrink-0 px-4 py-2 rounded-lg text-sm font-medium text-red-600">Logout</button>
+        <div className="md:hidden sticky top-0 z-20 flex flex-col w-full bg-white border-b border-gray-200 shadow-sm">
+          <div className="flex items-center justify-between px-4 py-3">
+            <h2 className="text-xl font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>Admin Panel</h2>
+            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 text-gray-600 hover:text-amber-600 bg-gray-50 rounded-lg transition-colors">
+              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
           </div>
+          
+          {/* Mobile Menu Items */}
+          {isMobileMenuOpen && (
+            <div className="flex flex-col px-4 py-2 space-y-1 bg-white border-t border-gray-100 shadow-lg absolute top-full left-0 w-full animate-fadeIn">
+              <button onClick={() => { setActiveTab('albums'); setIsMobileMenuOpen(false); }} className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors ${activeTab === 'albums' ? 'bg-amber-50 text-amber-600' : 'text-gray-600 hover:bg-gray-50'}`}>
+                <ImageIcon className="h-5 w-5" /><span>Manage Albums</span>
+              </button>
+              <button onClick={() => { setActiveTab('addAlbum'); setIsEditing(null); setAlbumTitle(''); setAlbumCategory(''); setExistingImages([]); setUploadedFiles([]); setPreviewUrls([]); setIsMobileMenuOpen(false); }} className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors ${activeTab === 'addAlbum' ? 'bg-amber-50 text-amber-600' : 'text-gray-600 hover:bg-gray-50'}`}>
+                <Plus className="h-5 w-5" /><span>{isEditing ? 'Edit Album' : 'Add Album'}</span>
+              </button>
+              <button onClick={() => { setActiveTab('categories'); setIsMobileMenuOpen(false); }} className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors ${activeTab === 'categories' ? 'bg-amber-50 text-amber-600' : 'text-gray-600 hover:bg-gray-50'}`}>
+                <Tag className="h-5 w-5" /><span>Categories</span>
+              </button>
+              <button onClick={() => { setActiveTab('settings'); setPasswordMsg({ type: '', text: '' }); setIsMobileMenuOpen(false); }} className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors ${activeTab === 'settings' ? 'bg-amber-50 text-amber-600' : 'text-gray-600 hover:bg-gray-50'}`}>
+                <Settings className="h-5 w-5" /><span>Settings</span>
+              </button>
+              
+              <div className="pt-2 mt-2 border-t border-gray-100 space-y-1 pb-2">
+                <button onClick={() => navigate('/')} className="w-full flex items-center space-x-3 px-4 py-3 text-gray-600 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors">
+                  <ArrowLeft className="h-5 w-5" /><span>Return Home</span>
+                </button>
+                <button onClick={handleLogout} className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-red-600 bg-red-50 hover:bg-red-100 transition-colors">
+                  <LogOut className="h-5 w-5" /><span>Logout</span>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="p-4 sm:p-8 max-w-5xl mx-auto pb-12 w-full">
@@ -430,6 +509,60 @@ const AdminDashboard: React.FC = () => {
                   </tbody>
                 </table>
               </div>
+            </div>
+          )}
+
+          {activeTab === 'settings' && (
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 max-w-xl mx-auto">
+              <h3 className="text-xl font-bold text-gray-900 mb-6">Security Settings</h3>
+              
+              {passwordMsg.text && (
+                <div className={`p-4 rounded-lg mb-6 text-sm ${passwordMsg.type === 'error' ? 'bg-red-50 text-red-600 border border-red-100' : 'bg-green-50 text-green-600 border border-green-100'}`}>
+                  {passwordMsg.text}
+                </div>
+              )}
+
+              <form onSubmit={handleChangePassword} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Current Password</label>
+                  <input
+                    type="password"
+                    required
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">New Password</label>
+                  <input
+                    type="password"
+                    required
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Confirm New Password</label>
+                  <input
+                    type="password"
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm"
+                  />
+                </div>
+                <div className="pt-4 flex justify-end">
+                  <button
+                    type="submit"
+                    disabled={isUpdatingPassword}
+                    className="bg-gray-900 text-white px-6 py-2 rounded-lg font-medium hover:bg-gray-800 transition-colors disabled:opacity-50 shadow-sm"
+                  >
+                    {isUpdatingPassword ? 'Updating...' : 'Update Password'}
+                  </button>
+                </div>
+              </form>
             </div>
           )}
 

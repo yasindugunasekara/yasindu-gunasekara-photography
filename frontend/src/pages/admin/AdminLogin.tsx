@@ -37,54 +37,43 @@ const AdminLogin: React.FC = () => {
   };
 
   return (
-    <div 
-      className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gray-900"
-    >
-      {/* Background Image with Overlay */}
-      <div 
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-        style={{ 
-          backgroundImage: "url('https://images.unsplash.com/photo-1452587925148-ce544e77e70d?q=80&w=2000&auto=format&fit=crop')",
-          backgroundPosition: 'center',
-        }}
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8 relative">
+      
+      {/* Return to Home Button */}
+      <button 
+        onClick={() => navigate('/')} 
+        className="absolute top-6 left-6 flex items-center space-x-2 text-gray-500 hover:text-amber-600 transition-colors text-sm font-medium"
       >
-        <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px]"></div>
-      </div>
+        <ArrowLeft className="h-4 w-4" />
+        <span>Back to Site</span>
+      </button>
 
-      <div className="relative z-10 w-full max-w-md px-6 py-12 lg:px-8">
-        
-        {/* Return to Home Button */}
-        <button 
-          onClick={() => navigate('/')} 
-          className="absolute top-0 left-6 flex items-center space-x-2 text-white/70 hover:text-white transition-colors text-sm"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          <span>Back to Site</span>
-        </button>
-
-        <div className="backdrop-blur-xl bg-white/10 p-8 sm:p-10 rounded-3xl shadow-2xl border border-white/20 mt-8">
+      <div className="w-full max-w-md">
+        <div className="bg-white p-8 sm:p-10 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100">
+          
+          {/* Header */}
           <div className="text-center mb-8">
-            <div className="mx-auto h-16 w-16 bg-white/20 rounded-full flex items-center justify-center mb-4 border border-white/30 shadow-inner">
-              <Camera className="h-8 w-8 text-white" />
+            <div className="mx-auto h-16 w-16 bg-amber-50 rounded-2xl flex items-center justify-center mb-6 text-amber-500">
+              <Camera className="h-8 w-8" />
             </div>
-            <h2 className="text-3xl font-extrabold text-white tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <h2 className="text-3xl font-bold text-gray-900 tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
               Admin Portal
             </h2>
-            <p className="mt-2 text-sm text-gray-300">
+            <p className="mt-2 text-sm text-gray-500">
               Secure login to your photography workspace
             </p>
           </div>
 
           <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (
-              <div className="bg-red-500/20 border border-red-500/50 text-red-200 px-4 py-3 rounded-xl text-sm text-center animate-fadeIn">
+              <div className="bg-red-50 border border-red-100 text-red-600 px-4 py-3 rounded-xl text-sm text-center">
                 {error}
               </div>
             )}
             
             <div className="space-y-4">
               <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-white/50 group-focus-within:text-amber-400 transition-colors">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-amber-500 transition-colors">
                   <User className="h-5 w-5" />
                 </div>
                 <input
@@ -94,13 +83,13 @@ const AdminLogin: React.FC = () => {
                   required
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="block w-full pl-11 pr-3 py-3 border border-white/20 rounded-xl leading-5 bg-white/5 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 focus:bg-white/10 transition-all sm:text-sm"
+                  className="block w-full pl-11 pr-4 py-3.5 border border-gray-200 rounded-xl leading-5 bg-gray-50 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent focus:bg-white transition-all sm:text-sm"
                   placeholder="Username"
                 />
               </div>
 
               <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-white/50 group-focus-within:text-amber-400 transition-colors">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-amber-500 transition-colors">
                   <Lock className="h-5 w-5" />
                 </div>
                 <input
@@ -110,39 +99,29 @@ const AdminLogin: React.FC = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full pl-11 pr-3 py-3 border border-white/20 rounded-xl leading-5 bg-white/5 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 focus:bg-white/10 transition-all sm:text-sm"
+                  className="block w-full pl-11 pr-4 py-3.5 border border-gray-200 rounded-xl leading-5 bg-gray-50 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent focus:bg-white transition-all sm:text-sm"
                   placeholder="Password"
                 />
               </div>
             </div>
 
-            <div>
+            <div className="pt-2">
               <button
                 type="submit"
                 disabled={isLoading}
-                className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-semibold rounded-xl text-gray-900 bg-amber-400 hover:bg-amber-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-amber-500 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed overflow-hidden"
+                className="w-full flex justify-center py-3.5 px-4 border border-transparent text-sm font-semibold rounded-xl text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed shadow-md"
               >
-                <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:animate-shine"></div>
-                <span className="relative z-10">{isLoading ? 'Authenticating...' : 'Access Dashboard'}</span>
+                {isLoading ? 'Authenticating...' : 'Access Dashboard'}
               </button>
             </div>
           </form>
         </div>
         
-        {/* Footer credits/branding */}
-        <div className="mt-8 text-center text-xs text-white/50">
+        {/* Footer */}
+        <div className="mt-8 text-center text-sm text-gray-400">
           &copy; {new Date().getFullYear()} Yasindu Photography. All rights reserved.
         </div>
       </div>
-      
-      <style>{`
-        @keyframes shine {
-          100% { transform: translateX(100%) skew(-12deg); }
-        }
-        .animate-shine {
-          animation: shine 1.5s infinite;
-        }
-      `}</style>
     </div>
   );
 };
