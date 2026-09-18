@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { portfolioImages } from "../data/"; // Update import
+import { useData } from '../context/DataContext';
 
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const GalleryPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const { portfolioImages } = useData();
   const gallery = portfolioImages.find((g) => String(g.id) === String(id));
 
   useEffect(() => {

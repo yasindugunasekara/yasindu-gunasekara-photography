@@ -1,7 +1,7 @@
 // src/api/chat.js
 export const sendMessage = async (message) => {
   try {
-    const response = await fetch("https://yasindu-gunasekara-photography-giuj.vercel.app/chat", {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/chat`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Lenis from 'lenis';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -10,6 +10,18 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import GalleryPage from './pages/GalleryPage';
 import ChatBot from './components/ChatBot';
+import { DataProvider, useData } from './context/DataContext';
+import AdminLogin from './pages/admin/AdminLogin';
+import AdminDashboard from './pages/admin/AdminDashboard';
+
+// Protected Route Component
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { isAuthenticated } = useData();
+  if (!isAuthenticated) {
+    return <Navigate to="/admin/login" replace />;
+  }
+  return <>{children}</>;
+};
 
 function App() {
   useEffect(() => {
@@ -28,31 +40,51 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <div className="App">
-        <Navbar />
-        <Routes>
-          {/* Home Page */}
-          <Route
-            path="/"
-            element={
-              <>
-                <Hero />
-                <Services />
-                <Portfolio />
-                <About />
-                <Contact />
-                <ChatBot />
-                <Footer />
-              </>
-            }
-          />
-          
-          {/* Gallery Page */}
-          <Route path="/gallery/:id" element={<GalleryPage />} />
-        </Routes>
-      </div>
-    </Router>
+    <DataProvider>
+      <Router>
+        <div className="App">
+          <Routes>
+            {/* Main Site Routes */}
+            <Route
+              path="/*"
+              element={
+                <>
+                  <Navbar />
+                  <Routes>
+                    <Route
+                      path="/"
+                      element={
+                        <>
+                          <Hero />
+                          <Services />
+                          <Portfolio />
+                          <About />
+                          <Contact />
+                          <ChatBot />
+                        </>
+                      }
+                    />
+                    <Route path="/gallery/:id" element={<GalleryPage />} />
+                  </Routes>
+                  <Footer />
+                </>
+              }
+            />
+
+            {/* Admin Routes */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route 
+              path="/admin/dashboard" 
+              element={
+                <ProtectedRoute>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              } 
+            />
+          </Routes>
+        </div>
+      </Router>
+    </DataProvider>
   );
 }
 

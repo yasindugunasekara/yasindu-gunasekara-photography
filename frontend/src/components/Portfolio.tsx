@@ -1,31 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { portfolioImages } from "../data";
 import { Filter } from "lucide-react"; // assuming you're using lucide-react icons
-
-interface Category {
-  id: string;
-  label: string;
-}
-
-const categories: Category[] = [
-  { id: "all", label: "All" },
-  { id: "portrait", label: "Portrait" },
-  { id: "landscape", label: "Landscape" },
-  { id: "wildlife", label: "Wildlife" },
-  { id: "street", label: "Street" },
-  { id: "astro", label: "Astro" },
-  { id: "event", label: "Event" },
-  { id: "architectural", label: "Architectural" },
-  { id: "birthday", label: "Birthday" }
-    ];
-
+import { useData } from '../context/DataContext';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const Portfolio: React.FC = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const { categories, portfolioImages } = useData();
 
   const openGallery = (category: string) => {
     navigate(`/gallery/${category}`);
