@@ -129,16 +129,16 @@ const AdminDashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="flex h-screen w-full bg-gray-50 overflow-hidden">
       {/* Sidebar */}
-      <div className="w-64 bg-white shadow-lg hidden md:block">
-        <div className="h-full flex flex-col">
+      <div className="w-64 flex-shrink-0 bg-white shadow-lg hidden md:flex flex-col h-full">
+        <div className="flex-1 flex flex-col">
           <div className="p-6">
             <h2 className="text-2xl font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>Admin Panel</h2>
             <p className="text-sm text-gray-500 mt-1">Yasindu Photography</p>
           </div>
           
-          <nav className="flex-1 px-4 space-y-2 mt-4">
+          <nav className="flex-1 px-4 space-y-2 mt-4 overflow-y-auto">
             <button
               onClick={() => setActiveTab('albums')}
               className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors ${activeTab === 'albums' ? 'bg-amber-50 text-amber-600' : 'text-gray-600 hover:bg-gray-50'}`}
@@ -147,7 +147,7 @@ const AdminDashboard: React.FC = () => {
               <span className="font-medium">Manage Albums</span>
             </button>
             <button
-              onClick={() => { setActiveTab('addAlbum'); setAlbumTitle(''); setAlbumCategory(''); setUploadedFiles([]); setPreviewUrls([]); }}
+              onClick={() => { setActiveTab('addAlbum'); setIsEditing(null); setAlbumTitle(''); setAlbumCategory(''); setExistingImages([]); setUploadedFiles([]); setPreviewUrls([]); }}
               className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors ${activeTab === 'addAlbum' ? 'bg-amber-50 text-amber-600' : 'text-gray-600 hover:bg-gray-50'}`}
             >
               <Plus className="h-5 w-5" />
@@ -162,7 +162,7 @@ const AdminDashboard: React.FC = () => {
             </button>
           </nav>
           
-          <div className="p-4 mt-auto">
+          <div className="p-4 border-t border-gray-100">
              <button onClick={() => navigate('/')} className="w-full mb-2 flex items-center justify-center space-x-2 px-4 py-2 text-sm text-gray-600 hover:text-amber-500 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
                Return Home
              </button>
@@ -178,8 +178,8 @@ const AdminDashboard: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 overflow-auto">
-        <div className="p-8 max-w-5xl mx-auto">
+      <main className="flex-1 h-full overflow-y-auto bg-gray-50" style={{ WebkitOverflowScrolling: 'touch' }}>
+        <div className="p-8 max-w-5xl mx-auto pb-12">
           {activeTab === 'albums' && (
             <div>
               <div className="flex justify-between items-center mb-6">
@@ -392,7 +392,7 @@ const AdminDashboard: React.FC = () => {
           )}
 
         </div>
-      </div>
+      </main>
     </div>
   );
 };
