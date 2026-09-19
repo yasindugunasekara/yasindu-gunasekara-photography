@@ -16,8 +16,8 @@ const GalleryPage: React.FC = () => {
 
   const getOptimizedUrl = (url: string) => {
     if (!url) return url;
-    if (url.includes('cloudinary.com') && !url.includes('f_auto')) {
-      return url.replace('/upload/', '/upload/f_auto,q_auto/');
+    if (url.includes('cloudinary.com') && !url.includes('f_webp')) {
+      return url.replace('/upload/', '/upload/f_webp,q_auto/');
     }
     return url;
   };

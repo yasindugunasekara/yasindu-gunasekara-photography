@@ -72,8 +72,22 @@ const initialCategories: Category[] = [];
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
 export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [portfolioImages, setPortfolioImages] = useState<PortfolioImage[]>([]);
+  const [categories, setCategories] = useState<Category[]>(() => {
+    try {
+      const cached = localStorage.getItem('categoriesCache');
+      return cached ? JSON.parse(cached) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [portfolioImages, setPortfolioImages] = useState<PortfolioImage[]>(() => {
+    try {
+      const cached = localStorage.getItem('portfolioImagesCache');
+      return cached ? JSON.parse(cached) : [];
+    } catch {
+      return [];
+    }
+  });
   
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => localStorage.getItem('isAdminLoggedIn') === 'true');
 
@@ -81,11 +95,14 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const fetchAlbums = async () => {
     try {
       const res = await axios.get(`${API_URL}/albums`);
-      // Use raw db objects directly, we don't map to `initialPortfolioImages` fallback anymore
-      setPortfolioImages(res.data || []);
+      const data = res.data || [];
+      setPortfolioImages(data);
+      localStorage.setItem('portfolioImagesCache', JSON.stringify(data));
     } catch (err) {
       console.error("Failed to fetch albums", err);
-      setPortfolioImages([]);
+      if (portfolioImages.length === 0) {
+        setPortfolioImages([]);
+      }
     }
   };
 
@@ -95,8 +112,11 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const res = await axios.get(`${API_URL}/categories`);
       if (res.data && res.data.length > 0) {
         setCategories(res.data);
+        localStorage.setItem('categoriesCache', JSON.stringify(res.data));
       } else {
-        setCategories([{ id: "all", label: "All" }]);
+        const defaultCats = [{ id: "all", label: "All" }];
+        setCategories(defaultCats);
+        localStorage.setItem('categoriesCache', JSON.stringify(defaultCats));
       }
     } catch (err) {
       console.error("Failed to fetch categories", err);
@@ -107,6 +127,19 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     fetchAlbums();
     fetchCategories();
   }, []);
+
+  // Sync state to local storage on changes (excluding initial empty state before fetch if cache was empty)
+  useEffect(() => {
+    if (categories.length > 0) {
+      localStorage.setItem('categoriesCache', JSON.stringify(categories));
+    }
+  }, [categories]);
+
+  useEffect(() => {
+    if (portfolioImages.length > 0) {
+      localStorage.setItem('portfolioImagesCache', JSON.stringify(portfolioImages));
+    }
+  }, [portfolioImages]);
 
   // Actions
   const login = () => {

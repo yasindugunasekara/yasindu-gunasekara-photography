@@ -16,9 +16,9 @@ const Portfolio: React.FC = () => {
 
   const getOptimizedUrl = (url: string) => {
     if (!url) return url;
-    if (url.includes('cloudinary.com') && !url.includes('f_auto')) {
+    if (url.includes('cloudinary.com') && !url.includes('f_webp')) {
       // Add formatting rules: webp format, auto quality, and fill width for portfolio covers
-      return url.replace('/upload/', '/upload/w_800,c_fill,f_auto,q_auto/');
+      return url.replace('/upload/', '/upload/w_800,c_fill,f_webp,q_auto/');
     }
     return url;
   };

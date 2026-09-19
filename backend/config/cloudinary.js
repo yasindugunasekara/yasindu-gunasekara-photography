@@ -13,6 +13,7 @@ const storage = new CloudinaryStorage({
   params: {
     folder: "yasindu_photography",
     allowedFormats: ["jpg", "png", "jpeg", "webp"],
+    format: "webp",
   },
 });
 
