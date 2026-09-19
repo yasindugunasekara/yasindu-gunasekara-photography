@@ -20,6 +20,10 @@ const albumSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  coverImage: {
+    type: String,
+    required: false,
+  },
   images: [imageSchema],
 }, {
   timestamps: true,

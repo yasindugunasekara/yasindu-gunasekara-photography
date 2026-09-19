@@ -22,6 +22,11 @@ const Portfolio: React.FC = () => {
           (image) => image.category.toLowerCase() === selectedCategory
         );
 
+  // Filter categories to only include "all" and those with at least one matching album
+  const availableCategories = categories.filter(category => 
+    category.id === "all" || portfolioImages.some(album => album.category.toLowerCase() === category.id.toLowerCase())
+  );
+
   return (
     <section id="portfolio" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -32,7 +37,7 @@ const Portfolio: React.FC = () => {
             <Filter className="h-5 w-5" />
             <span className="font-medium">Filter:</span>
           </div>
-          {categories.map((category) => (
+          {availableCategories.map((category) => (
             <button
               key={category.id}
               onClick={() => setSelectedCategory(category.id)}
@@ -56,7 +61,7 @@ const Portfolio: React.FC = () => {
               onClick={() => openGallery(image.id)}
             >
               <LazyLoadImage
-                src={image && image.images.length > 0 ? image.images[0].src : ""}
+                src={image.coverImage || (image.images && image.images.length > 0 ? image.images[0].src : "")}
                 alt={`Image ${image?.id}`}
                 effect="blur"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"

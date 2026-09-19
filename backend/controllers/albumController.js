@@ -12,7 +12,7 @@ const getAlbums = async (req, res) => {
 
 const createAlbum = async (req, res) => {
   try {
-    const { alt, category, images } = req.body;
+    const { alt, category, coverImage, images } = req.body;
     
     if (!alt || typeof alt !== 'string') return res.status(400).json({ error: "Invalid title" });
     if (!category || typeof category !== 'string') return res.status(400).json({ error: "Invalid category" });
@@ -23,6 +23,7 @@ const createAlbum = async (req, res) => {
     const newAlbum = await Album.create({
       alt,
       category,
+      coverImage,
       images: formattedImages
     });
 
@@ -36,8 +37,10 @@ const createAlbum = async (req, res) => {
 const updateAlbum = async (req, res) => {
   try {
     const { id } = req.params;
-    const { alt, category, images } = req.body;
+    const { alt, category, coverImage, images } = req.body;
     
+    console.log("updateAlbum received coverImage:", coverImage);
+
     if (!alt || typeof alt !== 'string') return res.status(400).json({ error: "Invalid title" });
     if (!category || typeof category !== 'string') return res.status(400).json({ error: "Invalid category" });
     if (!Array.isArray(images) || images.length === 0) return res.status(400).json({ error: "Images must be a non-empty array" });
@@ -46,7 +49,7 @@ const updateAlbum = async (req, res) => {
 
     const updatedAlbum = await Album.findByIdAndUpdate(
       id,
-      { alt, category, images: formattedImages },
+      { alt, category, coverImage, images: formattedImages },
       { new: true }
     );
     

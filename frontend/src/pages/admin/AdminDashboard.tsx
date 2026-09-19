@@ -1,12 +1,32 @@
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useData, PortfolioImage, PortfolioImageItem, Category } from '../../context/DataContext';
-import { LogOut, Plus, Trash2, Edit2, Image as ImageIcon, Tag, Save, X, UploadCloud, Settings, Menu, ArrowLeft } from 'lucide-react';
+import { LogOut, Plus, Trash2, Edit2, Image as ImageIcon, Tag, Save, X, UploadCloud, Settings, Menu, ArrowLeft, Star } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
 
+const getOptimizedUrl = (url: string, width: number = 200, height: number = 200) => {
+  if (!url || !url.includes('res.cloudinary.com')) return url;
+  if (url.includes('/upload/c_')) return url; // Already optimized
+  const parts = url.split('/upload/');
+  if (parts.length === 2) {
+    return `${parts[0]}/upload/c_fill,w_${width},h_${height},f_auto,q_auto/${parts[1]}`;
+  }
+  return url;
+};
+
 const AdminDashboard: React.FC = () => {
-  const { categories, portfolioImages, token, logout, addCategory, addAlbum, editAlbum, deleteAlbum } = useData();
+  const { 
+    categories, 
+    portfolioImages, 
+    isAuthenticated,
+    logout, 
+    addCategory, 
+    deleteCategory, 
+    addAlbum, 
+    editAlbum, 
+    deleteAlbum 
+  } = useData();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'albums' | 'addAlbum' | 'categories' | 'settings'>(() => {
     return (sessionStorage.getItem('adminActiveTab') as any) || 'albums';
@@ -28,6 +48,8 @@ const AdminDashboard: React.FC = () => {
   // New images to upload
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+  const [coverImage, setCoverImage] = useState<string>('');
+  const [deleteModal, setDeleteModal] = useState<{ type: 'album' | 'category' | null, id: string | number | null, name: string }>({ type: null, id: null, name: '' });
   
   const [isUploading, setIsUploading] = useState(false);
 
@@ -69,6 +91,7 @@ const AdminDashboard: React.FC = () => {
     setAlbumTitle(album.alt);
     setAlbumCategory(album.category);
     setExistingImages(album.images.map(img => img.src));
+    setCoverImage(album.coverImage || (album.images.length > 0 ? album.images[0].src : ''));
     setUploadedFiles([]);
     setPreviewUrls([]);
     setActiveTab('addAlbum');
@@ -89,27 +112,38 @@ const AdminDashboard: React.FC = () => {
         uploadedFiles.forEach(file => formData.append('images', file));
 
         const uploadRes = await axios.post(`${import.meta.env.VITE_API_URL}/upload`, formData, {
-          headers: { 
-            'Content-Type': 'multipart/form-data',
-            'Authorization': `Bearer ${token}` 
-          }
+          withCredentials: true
         });
         cloudinaryUrls = uploadRes.data.urls;
       }
 
       const finalImages = [...existingImages, ...cloudinaryUrls];
 
+      let finalCoverImage = coverImage;
+      // If the selected cover is a newly uploaded image, replace local preview URL with Cloudinary URL
+      const newUploadIndex = previewUrls.indexOf(coverImage);
+      if (newUploadIndex !== -1 && cloudinaryUrls[newUploadIndex]) {
+        finalCoverImage = cloudinaryUrls[newUploadIndex];
+      }
+      
+      // Fallback: if no cover is explicitly set, use the first image
+      if (!finalCoverImage && finalImages.length > 0) {
+        finalCoverImage = finalImages[0];
+      }
+
       // 2. Save or Update Album
       if (isEditing) {
         await editAlbum(isEditing, {
           alt: albumTitle,
           category: albumCategory,
+          coverImage: finalCoverImage,
           images: finalImages
         });
       } else {
         await addAlbum({
           alt: albumTitle,
           category: albumCategory,
+          coverImage: finalCoverImage,
           images: finalImages
         });
       }
@@ -118,28 +152,56 @@ const AdminDashboard: React.FC = () => {
       setAlbumTitle('');
       setAlbumCategory('');
       setExistingImages([]);
+      setCoverImage('');
       setUploadedFiles([]);
       setPreviewUrls([]);
       setIsEditing(null);
       setActiveTab('albums');
       
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      alert('Failed to save album. Make sure Cloudinary credentials are set in the backend.');
+      const errorMessage = err.response?.data?.error || err.message || 'Unknown error occurred';
+      alert(`Failed to save album: ${errorMessage}`);
     } finally {
       setIsUploading(false);
     }
   };
 
-  const handleAddCategory = () => {
+  const handleAddCategory = async () => {
     if (!newCategoryLabel || !newCategoryId) {
       alert('Please fill all fields');
       return;
     }
-    addCategory({ id: newCategoryId.toLowerCase(), label: newCategoryLabel });
-    setNewCategoryLabel('');
-    setNewCategoryId('');
-    alert('Category added successfully!');
+    try {
+      await addCategory({ id: newCategoryId.toLowerCase(), label: newCategoryLabel });
+      setNewCategoryLabel('');
+      setNewCategoryId('');
+      alert('Category added successfully!');
+    } catch (err) {
+      alert('Failed to add category. It may already exist.');
+    }
+  };
+
+  const handleDeleteCategory = (id: string, name: string) => {
+    setDeleteModal({ type: 'category', id, name });
+  };
+
+  const handleDeleteAlbum = (id: string | number, name: string) => {
+    setDeleteModal({ type: 'album', id, name });
+  };
+
+  const executeDelete = async () => {
+    if (!deleteModal.type || !deleteModal.id) return;
+    try {
+      if (deleteModal.type === 'category') {
+        await deleteCategory(deleteModal.id as string);
+      } else {
+        await deleteAlbum(deleteModal.id);
+      }
+      setDeleteModal({ type: null, id: null, name: '' });
+    } catch (err) {
+      alert(`Failed to delete ${deleteModal.type}`);
+    }
   };
 
   const handleChangePassword = async (e: React.FormEvent) => {
@@ -159,8 +221,7 @@ const AdminDashboard: React.FC = () => {
     setIsUpdatingPassword(true);
     try {
       const res = await axios.put(`${import.meta.env.VITE_API_URL}/admin/password`, 
-        { currentPassword, newPassword },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { currentPassword, newPassword }
       );
       setPasswordMsg({ type: 'success', text: res.data.message });
       setCurrentPassword('');
@@ -183,7 +244,7 @@ const AdminDashboard: React.FC = () => {
             <p className="text-sm text-gray-500 mt-1">Yasindu Photography</p>
           </div>
           
-          <nav className="flex-1 px-4 space-y-2 mt-4 overflow-y-auto">
+          <nav className="flex-1 px-4 space-y-2 mt-4 overflow-y-auto" data-lenis-prevent>
             <button
               onClick={() => setActiveTab('albums')}
               className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors ${activeTab === 'albums' ? 'bg-amber-50 text-amber-600' : 'text-gray-600 hover:bg-gray-50'}`}
@@ -192,7 +253,7 @@ const AdminDashboard: React.FC = () => {
               <span className="font-medium">Manage Albums</span>
             </button>
             <button
-              onClick={() => { setActiveTab('addAlbum'); setIsEditing(null); setAlbumTitle(''); setAlbumCategory(''); setExistingImages([]); setUploadedFiles([]); setPreviewUrls([]); }}
+              onClick={() => { setActiveTab('addAlbum'); setIsEditing(null); setAlbumTitle(''); setAlbumCategory(''); setExistingImages([]); setUploadedFiles([]); setPreviewUrls([]); setCoverImage(''); }}
               className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors ${activeTab === 'addAlbum' ? 'bg-amber-50 text-amber-600' : 'text-gray-600 hover:bg-gray-50'}`}
             >
               <Plus className="h-5 w-5" />
@@ -230,7 +291,7 @@ const AdminDashboard: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 h-full overflow-y-auto bg-gray-50 flex flex-col hide-scrollbar" style={{ WebkitOverflowScrolling: 'touch' }}>
+      <main className="flex-1 h-full overflow-y-auto bg-gray-50 flex flex-col hide-scrollbar" style={{ WebkitOverflowScrolling: 'touch' }} data-lenis-prevent>
         
         {/* Mobile Navigation */}
         <div className="md:hidden sticky top-0 z-20 flex flex-col w-full bg-white border-b border-gray-200 shadow-sm">
@@ -292,8 +353,8 @@ const AdminDashboard: React.FC = () => {
                         <tr key={album.id}>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center">
-                              <div className="h-10 w-10 flex-shrink-0">
-                                <img className="h-10 w-10 rounded object-cover" src={album.images?.[0]?.src || ''} alt="" />
+                              <div className="h-10 w-10 flex-shrink-0 bg-gray-100 rounded">
+                                <img className="h-10 w-10 rounded object-cover" src={getOptimizedUrl(album.coverImage || album.images?.[0]?.src || '', 100, 100)} alt="" loading="lazy" />
                               </div>
                               <div className="ml-4">
                                 <div className="text-sm font-medium text-gray-900">{album.alt}</div>
@@ -312,7 +373,7 @@ const AdminDashboard: React.FC = () => {
                             <button onClick={() => startEditAlbum(album)} className="text-indigo-600 hover:text-indigo-900 mr-4">
                               <Edit2 className="h-5 w-5 inline" />
                             </button>
-                            <button onClick={() => deleteAlbum(album.id)} className="text-red-600 hover:text-red-900">
+                            <button onClick={() => handleDeleteAlbum(album.id, album.alt)} className="text-red-600 hover:text-red-900">
                               <Trash2 className="h-5 w-5 inline" />
                             </button>
                           </td>
@@ -327,7 +388,9 @@ const AdminDashboard: React.FC = () => {
                   {portfolioImages.map((album) => (
                     <div key={`mobile-${album.id}`} className="p-4 flex items-center justify-between">
                       <div className="flex items-center space-x-3 overflow-hidden">
-                        <img className="h-12 w-12 rounded-lg object-cover flex-shrink-0" src={album.images?.[0]?.src || ''} alt="" />
+                        <div className="h-12 w-12 rounded-lg bg-gray-100 flex-shrink-0 overflow-hidden">
+                          <img className="h-full w-full object-cover" src={getOptimizedUrl(album.coverImage || album.images?.[0]?.src || '', 100, 100)} alt="" loading="lazy" />
+                        </div>
                         <div className="truncate">
                           <div className="text-sm font-bold text-gray-900 truncate">{album.alt}</div>
                           <div className="flex items-center space-x-2 mt-1">
@@ -342,7 +405,7 @@ const AdminDashboard: React.FC = () => {
                         <button onClick={() => startEditAlbum(album)} className="p-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 transition-colors">
                           <Edit2 className="h-4 w-4" />
                         </button>
-                        <button onClick={() => deleteAlbum(album.id)} className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors">
+                        <button onClick={() => handleDeleteAlbum(album.id, album.alt)} className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors">
                           <Trash2 className="h-4 w-4" />
                         </button>
                       </div>
@@ -358,7 +421,7 @@ const AdminDashboard: React.FC = () => {
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-2xl font-bold text-gray-900">{isEditing ? 'Edit Album' : 'Create New Album'}</h3>
                 {isEditing && (
-                    <button onClick={() => {setIsEditing(null); setAlbumTitle(''); setAlbumCategory(''); setExistingImages([]); setUploadedFiles([]); setPreviewUrls([]); setActiveTab('albums');}} className="text-gray-500 hover:text-red-500"><X className="h-6 w-6"/></button>
+                    <button onClick={() => {setIsEditing(null); setAlbumTitle(''); setAlbumCategory(''); setExistingImages([]); setUploadedFiles([]); setPreviewUrls([]); setCoverImage(''); setActiveTab('albums');}} className="text-gray-500 hover:text-red-500"><X className="h-6 w-6"/></button>
                 )}
               </div>
               <div className="space-y-6">
@@ -413,9 +476,17 @@ const AdminDashboard: React.FC = () => {
                     <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
                       {/* Existing Images */}
                       {existingImages.map((url, index) => (
-                        <div key={`existing-${index}`} className="relative group rounded-md overflow-hidden aspect-square border border-amber-300">
-                          <img src={url} alt={`existing ${index}`} className="w-full h-full object-cover opacity-80" />
-                          <div className="absolute top-0 left-0 bg-amber-500 text-white text-[10px] px-1 rounded-br-sm">Existing</div>
+                        <div key={`existing-${index}`} className={`relative group rounded-md overflow-hidden aspect-square border-2 bg-gray-50 ${coverImage === url ? 'border-amber-500 shadow-md' : 'border-gray-200 hover:border-gray-300'}`}>
+                          <img src={getOptimizedUrl(url, 300, 300)} alt={`existing ${index}`} className="w-full h-full object-cover opacity-80" loading="lazy" />
+                          {coverImage === url && <div className="absolute top-0 left-0 bg-amber-500 text-white text-[10px] px-1 rounded-br-sm z-10">Cover</div>}
+                          <button 
+                            type="button"
+                            onClick={(e) => { e.preventDefault(); setCoverImage(url); }}
+                            className={`absolute top-1 left-1 ${coverImage === url ? 'text-amber-400 bg-black bg-opacity-30' : 'text-gray-300 bg-black bg-opacity-30'} rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity`}
+                            title="Set as Cover"
+                          >
+                            <Star className="h-4 w-4" fill={coverImage === url ? "currentColor" : "none"} />
+                          </button>
                           <button 
                             onClick={() => removeExistingPreview(index)}
                             className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
@@ -427,9 +498,18 @@ const AdminDashboard: React.FC = () => {
                       
                       {/* New Upload Previews */}
                       {previewUrls.map((url, index) => (
-                        <div key={`new-${index}`} className="relative group rounded-md overflow-hidden aspect-square border border-green-300">
+                        <div key={`new-${index}`} className={`relative group rounded-md overflow-hidden aspect-square border-2 bg-gray-50 ${coverImage === url ? 'border-amber-500 shadow-md' : 'border-gray-200 hover:border-gray-300'}`}>
                           <img src={url} alt={`preview ${index}`} className="w-full h-full object-cover" />
-                          <div className="absolute top-0 left-0 bg-green-500 text-white text-[10px] px-1 rounded-br-sm">New</div>
+                          <div className="absolute bottom-0 left-0 bg-green-500 text-white text-[10px] px-1 rounded-tr-sm z-10">New</div>
+                          {coverImage === url && <div className="absolute top-0 left-0 bg-amber-500 text-white text-[10px] px-1 rounded-br-sm z-10">Cover</div>}
+                          <button 
+                            type="button"
+                            onClick={(e) => { e.preventDefault(); setCoverImage(url); }}
+                            className={`absolute top-1 left-1 ${coverImage === url ? 'text-amber-400 bg-black bg-opacity-30' : 'text-gray-300 bg-black bg-opacity-30'} rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity`}
+                            title="Set as Cover"
+                          >
+                            <Star className="h-4 w-4" fill={coverImage === url ? "currentColor" : "none"} />
+                          </button>
                           <button 
                             onClick={() => removePreview(index)}
                             className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
@@ -497,6 +577,7 @@ const AdminDashboard: React.FC = () => {
                     <tr>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Label</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                      <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
@@ -504,6 +585,17 @@ const AdminDashboard: React.FC = () => {
                       <tr key={category.id}>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{category.label}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{category.id}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                          {category.id !== 'all' && (
+                            <button
+                              onClick={() => handleDeleteCategory(category.id, category.label)}
+                              className="text-red-600 hover:text-red-900 bg-red-50 p-2 rounded-lg transition-colors inline-flex"
+                              title="Delete category"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          )}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -568,6 +660,41 @@ const AdminDashboard: React.FC = () => {
 
         </div>
       </main>
+
+      {/* Delete Confirmation Modal */}
+      {deleteModal.type && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50 p-4 animate-fadeIn">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm overflow-hidden transform transition-all animate-scaleIn">
+            <div className="p-6 text-center">
+              <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+                <Trash2 className="h-6 w-6 text-red-600" />
+              </div>
+              <h3 className="text-lg leading-6 font-bold text-gray-900 mb-2">Delete {deleteModal.type === 'album' ? 'Album' : 'Category'}</h3>
+              <p className="text-sm text-gray-500 mb-6">
+                Are you sure you want to delete <span className="font-semibold text-gray-800">"{deleteModal.name}"</span>? 
+                This action cannot be undone and will permanently remove this {deleteModal.type}.
+              </p>
+              <div className="flex space-x-3 w-full">
+                <button
+                  type="button"
+                  onClick={() => setDeleteModal({ type: null, id: null, name: '' })}
+                  className="flex-1 bg-white border border-gray-300 rounded-xl px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={executeDelete}
+                  className="flex-1 bg-red-600 border border-transparent rounded-xl px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors shadow-sm"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

@@ -1,8 +1,9 @@
 const jwt = require("jsonwebtoken");
 
 const authenticateToken = (req, res, next) => {
+  // Fallback to headers if cookies aren't used for some reason, but primary is cookie
   const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+  const token = req.cookies?.accessToken || (authHeader && authHeader.split(' ')[1]);
   
   if (!token) {
     return res.status(401).json({ error: "Access Denied" });
