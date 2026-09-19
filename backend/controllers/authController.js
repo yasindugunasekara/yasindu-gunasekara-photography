@@ -3,12 +3,18 @@ const Admin = require("../models/Admin");
 
 const login = async (req, res) => {
   try {
-    const { username, password } = req.body;
-    if (!username || !password) {
-      return res.status(400).json({ error: "Username and password required" });
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ error: "Email and password are required" });
     }
 
-    const admin = await Admin.findOne({ username });
+    // Backend validation for email format
+    const emailRegex = /^\S+@\S+\.\S+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ error: "Invalid email format" });
+    }
+
+    const admin = await Admin.findOne({ email: email.toLowerCase() });
     if (!admin) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
@@ -19,13 +25,13 @@ const login = async (req, res) => {
     }
 
     const accessToken = jwt.sign(
-      { username: admin.username, id: admin._id },
+      { email: admin.email, id: admin._id },
       process.env.JWT_SECRET,
       { expiresIn: "15m" } // Short-lived access token
     );
 
     const refreshToken = jwt.sign(
-      { username: admin.username, id: admin._id },
+      { email: admin.email, id: admin._id },
       process.env.JWT_SECRET,
       { expiresIn: "7d" } // Long-lived refresh token
     );
@@ -38,14 +44,14 @@ const login = async (req, res) => {
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'lax',
       maxAge: 15 * 60 * 1000 // 15 minutes
     });
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
 
@@ -63,7 +69,7 @@ const changePassword = async (req, res) => {
       return res.status(400).json({ error: "Current and new passwords are required" });
     }
 
-    const admin = await Admin.findOne({ username: req.user.username });
+    const admin = await Admin.findOne({ email: req.user.email });
     if (!admin) {
       return res.status(404).json({ error: "Admin not found" });
     }
@@ -103,7 +109,7 @@ const refresh = async (req, res) => {
 
       // Generate new access token
       const accessToken = jwt.sign(
-        { username: admin.username, id: admin._id },
+        { email: admin.email, id: admin._id },
         process.env.JWT_SECRET,
         { expiresIn: "15m" }
       );
@@ -111,7 +117,7 @@ const refresh = async (req, res) => {
       res.cookie('accessToken', accessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
+        sameSite: 'lax',
         maxAge: 15 * 60 * 1000 // 15 minutes
       });
 
