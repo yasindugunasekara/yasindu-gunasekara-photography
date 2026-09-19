@@ -40,18 +40,20 @@ const login = async (req, res) => {
     admin.refreshToken = refreshToken;
     await admin.save();
 
+    const isProduction = process.env.NODE_ENV === 'production';
+
     // Set HttpOnly Cookies
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax',
       maxAge: 15 * 60 * 1000 // 15 minutes
     });
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
 
@@ -114,10 +116,11 @@ const refresh = async (req, res) => {
         { expiresIn: "15m" }
       );
 
+      const isProduction = process.env.NODE_ENV === 'production';
       res.cookie('accessToken', accessToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
+        secure: isProduction,
+        sameSite: isProduction ? 'none' : 'lax',
         maxAge: 15 * 60 * 1000 // 15 minutes
       });
 
@@ -137,8 +140,14 @@ const logout = async (req, res) => {
       await Admin.findOneAndUpdate({ refreshToken }, { refreshToken: null });
     }
 
-    res.clearCookie('accessToken');
-    res.clearCookie('refreshToken');
+    const isProduction = process.env.NODE_ENV === 'production';
+    const clearOptions = {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax'
+    };
+    res.clearCookie('accessToken', clearOptions);
+    res.clearCookie('refreshToken', clearOptions);
     res.json({ success: true, message: "Logged out successfully" });
   } catch (error) {
     console.error("Logout error:", error);
