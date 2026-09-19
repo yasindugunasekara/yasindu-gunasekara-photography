@@ -52,6 +52,7 @@ const AdminDashboard: React.FC = () => {
   const [deleteModal, setDeleteModal] = useState<{ type: 'album' | 'category' | null, id: string | number | null, name: string }>({ type: null, id: null, name: '' });
   
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<{ current: number; total: number; percentage: number } | null>(null);
 
   // Add Category State
   const [newCategoryLabel, setNewCategoryLabel] = useState('');
@@ -105,16 +106,24 @@ const AdminDashboard: React.FC = () => {
 
     setIsUploading(true);
     try {
-      // 1. Upload NEW Images
+      // 1. Upload NEW Images sequentially to avoid Payload Too Large errors and timeouts
       let cloudinaryUrls: string[] = [];
       if (uploadedFiles.length > 0) {
-        const formData = new FormData();
-        uploadedFiles.forEach(file => formData.append('images', file));
+        setUploadProgress({ current: 0, total: uploadedFiles.length, percentage: 0 });
+        const API_URL = import.meta.env.PROD ? '/api' : (import.meta.env.VITE_API_URL || 'http://localhost:5000/api');
+        
+        for (let i = 0; i < uploadedFiles.length; i++) {
+          const file = uploadedFiles[i];
+          const formData = new FormData();
+          formData.append('images', file);
 
-        const uploadRes = await axios.post(`${import.meta.env.VITE_API_URL}/upload`, formData, {
-          withCredentials: true
-        });
-        cloudinaryUrls = uploadRes.data.urls;
+          const uploadRes = await axios.post(`${API_URL}/upload`, formData);
+          if (uploadRes.data.urls && uploadRes.data.urls.length > 0) {
+            cloudinaryUrls.push(uploadRes.data.urls[0]);
+          }
+          
+          setUploadProgress({ current: i + 1, total: uploadedFiles.length, percentage: Math.round(((i + 1) / uploadedFiles.length) * 100) });
+        }
       }
 
       const finalImages = [...existingImages, ...cloudinaryUrls];
@@ -164,6 +173,7 @@ const AdminDashboard: React.FC = () => {
       alert(`Failed to save album: ${errorMessage}`);
     } finally {
       setIsUploading(false);
+      setUploadProgress(null);
     }
   };
 
@@ -518,6 +528,19 @@ const AdminDashboard: React.FC = () => {
                           </button>
                         </div>
                       ))}
+                    </div>
+                  </div>
+                )}
+                
+                {/* Upload Progress Bar */}
+                {uploadProgress && (
+                  <div className="mt-4 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <div className="flex justify-between text-sm font-medium text-gray-700 mb-2">
+                      <span>Uploading Image {uploadProgress.current} of {uploadProgress.total}</span>
+                      <span>{uploadProgress.percentage}%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2.5">
+                      <div className="bg-amber-500 h-2.5 rounded-full transition-all duration-300" style={{ width: `${uploadProgress.percentage}%` }}></div>
                     </div>
                   </div>
                 )}
