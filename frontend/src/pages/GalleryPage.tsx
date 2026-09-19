@@ -14,6 +14,14 @@ const GalleryPage: React.FC = () => {
   const [visibleCount, setVisibleCount] = useState(20);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
+  const getOptimizedUrl = (url: string) => {
+    if (!url) return url;
+    if (url.includes('cloudinary.com') && !url.includes('f_auto')) {
+      return url.replace('/upload/', '/upload/f_auto,q_auto/');
+    }
+    return url;
+  };
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
@@ -77,7 +85,7 @@ const GalleryPage: React.FC = () => {
             onClick={() => setSelectedIndex(index)}
           >
             <LazyLoadImage
-              src={img.src}
+              src={getOptimizedUrl(img.src)}
               alt={gallery.alt}
               effect="blur"
               className="w-full h-full object-cover transition-transform duration-200 hover:scale-105"
@@ -137,7 +145,7 @@ const GalleryPage: React.FC = () => {
             )}
 
             <img 
-              src={gallery.images[selectedIndex].src} 
+              src={getOptimizedUrl(gallery.images[selectedIndex].src)} 
               alt="Fullscreen view" 
               className="max-h-full max-w-full object-contain drop-shadow-2xl select-none z-0"
               onClick={(e) => e.stopPropagation()} 

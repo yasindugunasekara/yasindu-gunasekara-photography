@@ -14,6 +14,15 @@ const Portfolio: React.FC = () => {
     navigate(`/gallery/${category}`);
   };
 
+  const getOptimizedUrl = (url: string) => {
+    if (!url) return url;
+    if (url.includes('cloudinary.com') && !url.includes('f_auto')) {
+      // Add formatting rules: webp format, auto quality, and fill width for portfolio covers
+      return url.replace('/upload/', '/upload/w_800,c_fill,f_auto,q_auto/');
+    }
+    return url;
+  };
+
   // Filter images based on selected category
   const filteredImages =
     selectedCategory === "all"
@@ -61,7 +70,7 @@ const Portfolio: React.FC = () => {
               onClick={() => openGallery(image.id)}
             >
               <LazyLoadImage
-                src={image.coverImage || (image.images && image.images.length > 0 ? image.images[0].src : "")}
+                src={getOptimizedUrl(image.coverImage || (image.images && image.images.length > 0 ? image.images[0].src : ""))}
                 alt={`Image ${image?.id}`}
                 effect="blur"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
