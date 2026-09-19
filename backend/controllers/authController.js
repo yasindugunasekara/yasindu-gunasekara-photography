@@ -57,7 +57,7 @@ const login = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
 
-    res.json({ success: true, message: "Logged in successfully" });
+    res.json({ success: true, message: "Logged in successfully", accessToken, refreshToken });
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ error: "Server error during login" });
@@ -93,7 +93,7 @@ const changePassword = async (req, res) => {
 
 const refresh = async (req, res) => {
   try {
-    const refreshToken = req.cookies?.refreshToken;
+    const refreshToken = req.cookies?.refreshToken || req.body?.refreshToken;
     
     if (!refreshToken) {
       return res.status(401).json({ error: "No refresh token provided" });
@@ -124,7 +124,7 @@ const refresh = async (req, res) => {
         maxAge: 15 * 60 * 1000 // 15 minutes
       });
 
-      res.json({ success: true, message: "Token refreshed" });
+      res.json({ success: true, message: "Token refreshed", accessToken });
     });
   } catch (error) {
     console.error("Refresh error:", error);
@@ -134,7 +134,7 @@ const refresh = async (req, res) => {
 
 const logout = async (req, res) => {
   try {
-    const refreshToken = req.cookies?.refreshToken;
+    const refreshToken = req.cookies?.refreshToken || req.body?.refreshToken;
     if (refreshToken) {
       // Remove token from DB
       await Admin.findOneAndUpdate({ refreshToken }, { refreshToken: null });

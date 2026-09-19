@@ -28,7 +28,7 @@ const AdminLogin: React.FC = () => {
     try {
       const res = await axios.post(`${import.meta.env.VITE_API_URL}/login`, { email, password });
       if (res.data.success) {
-        login();
+        login(res.data.accessToken, res.data.refreshToken);
         navigate('/admin/dashboard');
       }
     } catch (err: any) {

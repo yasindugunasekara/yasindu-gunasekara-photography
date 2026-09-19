@@ -7,6 +7,15 @@ const API_URL = isProd ? '/api' : (import.meta.env.VITE_API_URL || 'http://local
 // Configure Axios globally
 axios.defaults.withCredentials = true;
 
+// Add a request interceptor to inject the token
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem('accessToken');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 // Add a response interceptor to handle token refresh
 axios.interceptors.response.use(
   (response) => response,
@@ -23,12 +32,17 @@ axios.interceptors.response.use(
     if ((error.response?.status === 401 || error.response?.status === 403) && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        await axios.post(`${API_URL}/refresh`);
-        // Retry the original request with the new access token cookie
+        const res = await axios.post(`${API_URL}/refresh`, { refreshToken: localStorage.getItem('refreshToken') });
+        if (res.data && res.data.accessToken) {
+          localStorage.setItem('accessToken', res.data.accessToken);
+        }
+        // Retry the original request with the new access token
         return axios(originalRequest);
       } catch (refreshError) {
         // Refresh token is expired or invalid
         localStorage.removeItem('isAdminLoggedIn');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
         window.location.href = '/admin/login';
         return Promise.reject(refreshError);
       }
@@ -59,7 +73,7 @@ interface DataContextType {
   categories: Category[];
   portfolioImages: PortfolioImage[];
   isAuthenticated: boolean;
-  login: () => void;
+  login: (accessToken?: string, refreshToken?: string) => void;
   logout: () => void;
   addCategory: (category: Category) => Promise<void>;
   deleteCategory: (id: string) => Promise<void>;
@@ -143,19 +157,23 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [portfolioImages]);
 
   // Actions
-  const login = () => {
+  const login = (accessToken?: string, refreshToken?: string) => {
     setIsAuthenticated(true);
     localStorage.setItem('isAdminLoggedIn', 'true');
+    if (accessToken) localStorage.setItem('accessToken', accessToken);
+    if (refreshToken) localStorage.setItem('refreshToken', refreshToken);
   };
 
   const logout = async () => {
     try {
-      await axios.post(`${API_URL}/logout`);
+      await axios.post(`${API_URL}/logout`, { refreshToken: localStorage.getItem('refreshToken') });
     } catch (err) {
       console.error("Logout error", err);
     }
     setIsAuthenticated(false);
     localStorage.removeItem('isAdminLoggedIn');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
   };
 
   const addCategory = async (category: Category) => {
