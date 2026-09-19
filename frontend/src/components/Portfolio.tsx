@@ -42,10 +42,7 @@ const Portfolio: React.FC = () => {
 
         {/* Filter Buttons */}
         <div className="flex flex-wrap justify-center gap-2 mb-12">
-          <div className="flex items-center space-x-2 text-gray-600 mr-4">
-            <Filter className="h-5 w-5" />
-            <span className="font-medium">Filter:</span>
-          </div>
+
           {availableCategories.map((category) => (
             <button
               key={category.id}
